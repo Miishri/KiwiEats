@@ -1,2 +1,4 @@
-package org.delivery.kiwieats.repositories.rider;public interface RiderRepository {
+package org.delivery.kiwieats.repositories.rider;
+
+public interface RiderRepository {
 }
