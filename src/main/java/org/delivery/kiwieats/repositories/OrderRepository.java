@@ -1,2 +1,4 @@
-package org.delivery.kiwieats.repositories;public interface OrderRepository {
+package org.delivery.kiwieats.repositories;
+
+public interface OrderRepository {
 }
