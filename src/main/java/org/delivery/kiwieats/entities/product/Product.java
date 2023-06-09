@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.delivery.kiwieats.entities.Order;
 import org.delivery.kiwieats.entities.seller.Seller;
-import org.delivery.kiwieats.model.ProductType;
+import org.delivery.kiwieats.model.product.ProductType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
