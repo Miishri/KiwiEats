@@ -4,7 +4,7 @@ package org.delivery.kiwieats.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.delivery.kiwieats.entities.customer.Customer;
-import org.delivery.kiwieats.model.ProductType;
+import org.delivery.kiwieats.model.product.ProductType;
 
 import java.math.BigDecimal;
 
