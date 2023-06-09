@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.delivery.kiwieats.entities.Address;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -25,7 +24,6 @@ public class CustomerDetails {
     private Long id;
 
     @OneToOne
-    @MapsId
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
@@ -39,17 +37,31 @@ public class CustomerDetails {
     @NotBlank
     private String email;
 
-    //implement password later
-    //private Password password;
+    private String password;
 
     @NotNull
     @NotBlank
     @Size(min = 4, max = 12)
     private Integer phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    @NotNull
+    @NotBlank
+    private String street;
+
+    private String careOf;
+
+    @NotNull
+    @NotBlank
+    @Size(max = 80)
+    private String city;
+
+    @NotNull
+    @NotBlank
+    @Size(max = 60)
+    private String country;
+
+    @Size(max = 10)
+    private Integer postCode;
 
     @CreationTimestamp
     private LocalDateTime registeredDate;

@@ -28,7 +28,6 @@ public class Rider {
     private UUID id;
 
     @OneToOne(mappedBy = "rider", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private RiderDetails details;
 
     @OneToMany(mappedBy = "rider")

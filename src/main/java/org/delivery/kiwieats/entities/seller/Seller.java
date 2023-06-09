@@ -30,6 +30,9 @@ public class Seller {
 
     private Integer totalCustomers;
 
+    @OneToOne(mappedBy = "seller", cascade = CascadeType.ALL)
+    private SellerDetails sellerDetails;
+
     @OneToMany(mappedBy = "seller")
     private Set<Product> products;
 
@@ -38,9 +41,5 @@ public class Seller {
     @NotNull
     @NotBlank
     private Boolean verified;
-    @PrePersist
-    private void prePersist() {
-        verified = false;
-    }
 
 }

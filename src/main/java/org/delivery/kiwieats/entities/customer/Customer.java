@@ -17,7 +17,6 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "customer")
 public class Customer {
 
     @Id
@@ -28,13 +27,12 @@ public class Customer {
     private UUID id;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private CustomerDetails details;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private Set<Order> orders;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private Set<Discount> discounts;
 
 }

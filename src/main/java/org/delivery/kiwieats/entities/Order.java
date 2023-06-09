@@ -5,10 +5,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.delivery.kiwieats.entities.customer.Customer;
+import org.delivery.kiwieats.entities.product.Product;
 import org.delivery.kiwieats.entities.rider.Rider;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -33,6 +36,9 @@ public class Order {
     @CreationTimestamp
     private LocalDateTime orderedDate;
 
+    @OneToMany(mappedBy = "order")
+    private Set<Product> products;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -40,8 +46,5 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "rider_id")
     private Rider rider;
-    @PrePersist
-    private void prePersist() {
-        active = false;
-    }
+
 }
