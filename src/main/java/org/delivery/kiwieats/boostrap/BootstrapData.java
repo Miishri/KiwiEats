@@ -5,8 +5,8 @@ import org.delivery.kiwieats.entities.product.Product;
 import org.delivery.kiwieats.entities.seller.Seller;
 import org.delivery.kiwieats.entities.seller.SellerDetails;
 import org.delivery.kiwieats.model.product.ProductType;
-import org.delivery.kiwieats.repositories.customer.CustomerDetailsRepository;
 import org.delivery.kiwieats.repositories.product.ProductRepository;
+import org.delivery.kiwieats.repositories.seller.SellerDetailsRepository;
 import org.delivery.kiwieats.repositories.seller.SellerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -21,9 +21,9 @@ public class BootstrapData implements CommandLineRunner {
 
     private ProductRepository productRepository;
     private SellerRepository sellerRepository;
-    private CustomerDetailsRepository sellerDetailsRepository;
+    private SellerDetailsRepository sellerDetailsRepository;
 
-    public BootstrapData(ProductRepository productRepository, SellerRepository sellerRepository, CustomerDetailsRepository sellerDetailsRepository) {
+    public BootstrapData(ProductRepository productRepository, SellerRepository sellerRepository, SellerDetailsRepository sellerDetailsRepository) {
         this.productRepository = productRepository;
         this.sellerRepository = sellerRepository;
         this.sellerDetailsRepository = sellerDetailsRepository;
