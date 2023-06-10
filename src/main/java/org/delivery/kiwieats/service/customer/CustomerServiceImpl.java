@@ -1,6 +1,6 @@
 package org.delivery.kiwieats.service.customer;
 
-import lombok.RequiredArgsConstructor;
+import org.delivery.kiwieats.entities.customer.Customer;
 import org.delivery.kiwieats.model.customer.CustomerDTO;
 import org.springframework.stereotype.Service;
 
@@ -9,26 +9,25 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     @Override
-    public List<CustomerDTO> listCustomers() {
+    public List<Customer> listCustomers() {
         return null;
     }
 
     @Override
-    public Optional<CustomerDTO> getCustomerById() {
+    public Optional<Customer> getCustomerById() {
         return Optional.empty();
     }
 
     @Override
-    public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
+    public Customer saveCustomer(CustomerDTO customer) {
         return null;
     }
 
     @Override
-    public Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customerDTO) {
+    public Optional<Customer> updateCustomerById(UUID customerId, Customer customer) {
         return Optional.empty();
     }
 

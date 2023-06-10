@@ -1,18 +1,18 @@
 package org.delivery.kiwieats.service.seller;
 
-import org.delivery.kiwieats.model.seller.SellerDTO;
+import org.delivery.kiwieats.entities.seller.Seller;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface SellerService {
-    List<SellerDTO> listSellers();
-    Optional<SellerDTO> getSellerById();
+    List<Seller> listSellers();
+    Optional<Seller> getSellerById();
 
-    SellerDTO saveSeller(SellerDTO sellerDTO);
+    Seller saveSeller(Seller seller);
 
-    Optional<SellerDTO> updateSellerById(UUID sellerId, SellerDTO sellerDTO);
+    Optional<Seller> updateSellerById(UUID sellerId, Seller seller);
 
     Boolean deleteSellerById(UUID sellerId);
 }

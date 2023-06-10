@@ -1,28 +1,29 @@
 package org.delivery.kiwieats.service;
 
-import org.delivery.kiwieats.model.OrderDTO;
+import org.delivery.kiwieats.entities.Order;
 
 import java.util.List;
 import java.util.Optional;
 
 public class OrderServiceImpl implements OrderService {
+
     @Override
-    public List<OrderDTO> listOrders() {
+    public List<Order> listOrders() {
         return null;
     }
 
     @Override
-    public Optional<OrderDTO> getOrderById() {
+    public Optional<Order> getOrderById() {
         return Optional.empty();
     }
 
     @Override
-    public OrderDTO saveOrder(OrderDTO orderDTO) {
+    public Order saveOrder(Order order) {
         return null;
     }
 
     @Override
-    public Optional<OrderDTO> updateOrderById(Long orderId, OrderDTO orderDTO) {
+    public Optional<Order> updateOrderById(Long orderId, Order order) {
         return Optional.empty();
     }
 

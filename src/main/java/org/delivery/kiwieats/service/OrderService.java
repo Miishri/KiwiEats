@@ -1,17 +1,17 @@
 package org.delivery.kiwieats.service;
 
-import org.delivery.kiwieats.model.OrderDTO;
+import org.delivery.kiwieats.entities.Order;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    List<OrderDTO> listOrders();
-    Optional<OrderDTO> getOrderById();
+    List<Order> listOrders();
+    Optional<Order> getOrderById();
 
-    OrderDTO saveOrder(OrderDTO orderDTO);
+    Order saveOrder(Order order);
 
-    Optional<OrderDTO> updateOrderById(Long orderId, OrderDTO orderDTO);
+    Optional<Order> updateOrderById(Long orderId, Order order);
 
     Boolean deleteOrderById(Long orderId);
 }
