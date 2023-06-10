@@ -19,7 +19,6 @@ public class SellerDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
     @OneToOne
