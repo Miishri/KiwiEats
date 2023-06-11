@@ -1,13 +1,13 @@
 package org.delivery.kiwieats.boostrap;
 
 import lombok.RequiredArgsConstructor;
-import org.delivery.kiwieats.entities.product.Product;
-import org.delivery.kiwieats.entities.seller.Seller;
-import org.delivery.kiwieats.entities.seller.SellerDetails;
-import org.delivery.kiwieats.model.product.ProductType;
-import org.delivery.kiwieats.repositories.product.ProductRepository;
-import org.delivery.kiwieats.repositories.seller.SellerDetailsRepository;
-import org.delivery.kiwieats.repositories.seller.SellerRepository;
+import org.delivery.kiwieats.entities.Product;
+import org.delivery.kiwieats.entities.ProductType;
+import org.delivery.kiwieats.entities.Seller;
+import org.delivery.kiwieats.entities.UserDetails;
+import org.delivery.kiwieats.repositories.ProductRepository;
+import org.delivery.kiwieats.repositories.SellerRepository;
+import org.delivery.kiwieats.repositories.UserDetailsRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,24 +19,28 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class BootstrapData implements CommandLineRunner {
 
-    private ProductRepository productRepository;
-    private SellerRepository sellerRepository;
-    private SellerDetailsRepository sellerDetailsRepository;
-
-    public BootstrapData(ProductRepository productRepository, SellerRepository sellerRepository, SellerDetailsRepository sellerDetailsRepository) {
-        this.productRepository = productRepository;
-        this.sellerRepository = sellerRepository;
-        this.sellerDetailsRepository = sellerDetailsRepository;
-    }
+    private final ProductRepository productRepository;
+    private final SellerRepository sellerRepository;
+    private final UserDetailsRepository detailsRepository;
 
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-        loadSellerAndProduct();
+
     }
 
     private void loadSellerAndProduct() {
-        SellerDetails sellerDetails = SellerDetails.builder()
+
+        Seller seller = Seller.builder()
+                .totalCustomers(0)
+                .revenue(new BigDecimal("1100.90"))
+                .verified(true)
+                .build();
+
+        seller.setProducts(getTestProducts(seller));
+
+        UserDetails userDetails = UserDetails.builder()
+                .userId(sellerRepository.save(seller).getId())
                 .firstName("test-Rider-1")
                 .lastName("delivery")
                 .email("testRider@gmail.com")
@@ -48,19 +52,8 @@ public class BootstrapData implements CommandLineRunner {
                 .country("UK")
                 .build();
 
-        SellerDetails savedDetails = sellerDetailsRepository.save(sellerDetails);
-
-        Seller seller = Seller.builder()
-                .totalCustomers(0)
-                .sellerDetails(savedDetails)
-                .revenue(new BigDecimal("1100.90"))
-                .verified(true)
-                .build();
-
-        seller.setProducts(getTestProducts(seller));
-        savedDetails.setSeller(seller);
-        sellerDetailsRepository.save(savedDetails);
         sellerRepository.save(seller);
+        detailsRepository.save(userDetails);
     }
 
     private Set<Product> getTestProducts(Seller seller) {
