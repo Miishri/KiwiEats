@@ -1,4 +1,4 @@
-package org.delivery.kiwieats.controller.seller;
+package org.delivery.kiwieats.controller;
 
 
 import lombok.RequiredArgsConstructor;
