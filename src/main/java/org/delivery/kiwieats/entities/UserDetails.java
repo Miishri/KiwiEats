@@ -1,4 +1,4 @@
-package org.delivery.kiwieats.entities.seller;
+package org.delivery.kiwieats.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,15 +16,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-public class SellerDetails {
+@Table(name = "user_details")
+public class UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "seller_id")
-    private Seller seller;
+    private UUID userId;
 
     @NotNull
     @NotBlank
@@ -42,11 +42,11 @@ public class SellerDetails {
     @Size(min = 4, max = 12)
     private Integer phone;
 
+
     @NotNull
     @NotBlank
     private String street;
 
-    @Column(name = "care_of")
     private String careOf;
 
     @NotNull
@@ -64,4 +64,9 @@ public class SellerDetails {
 
     @CreationTimestamp
     private LocalDateTime registeredDate;
+
+    @NotNull
+    @NotBlank
+    private Boolean verified;
+
 }
