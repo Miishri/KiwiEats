@@ -1,9 +1,9 @@
 package org.delivery.kiwieats.service.seller;
 
 import lombok.RequiredArgsConstructor;
-import org.delivery.kiwieats.entities.Seller;
+import org.delivery.kiwieats.entities.seller.Seller;
 import org.delivery.kiwieats.entities.UserDetails;
-import org.delivery.kiwieats.repositories.SellerRepository;
+import org.delivery.kiwieats.repositories.seller.SellerRepository;
 import org.delivery.kiwieats.repositories.UserDetailsRepository;
 import org.springframework.stereotype.Service;
 

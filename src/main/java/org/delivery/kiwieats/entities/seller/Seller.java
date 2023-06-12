@@ -1,7 +1,8 @@
-package org.delivery.kiwieats.entities;
+package org.delivery.kiwieats.entities.seller;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.delivery.kiwieats.entities.product.Product;
 
 import java.math.BigDecimal;
 import java.util.Set;

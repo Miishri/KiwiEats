@@ -1,6 +1,6 @@
-package org.delivery.kiwieats.repositories;
+package org.delivery.kiwieats.repositories.rider;
 
-import org.delivery.kiwieats.entities.Rider;
+import org.delivery.kiwieats.entities.rider.Rider;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

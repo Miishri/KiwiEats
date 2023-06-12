@@ -1,6 +1,6 @@
 package org.delivery.kiwieats.service.seller;
 
-import org.delivery.kiwieats.entities.Seller;
+import org.delivery.kiwieats.entities.seller.Seller;
 
 import java.util.List;
 import java.util.Optional;

@@ -2,7 +2,18 @@ package org.delivery.kiwieats.boostrap;
 
 import lombok.RequiredArgsConstructor;
 import org.delivery.kiwieats.entities.*;
+import org.delivery.kiwieats.entities.customer.Customer;
+import org.delivery.kiwieats.entities.order.Order;
+import org.delivery.kiwieats.entities.product.Product;
+import org.delivery.kiwieats.entities.product.ProductType;
+import org.delivery.kiwieats.entities.rider.Rider;
+import org.delivery.kiwieats.entities.seller.Seller;
 import org.delivery.kiwieats.repositories.*;
+import org.delivery.kiwieats.repositories.customer.CustomerRepository;
+import org.delivery.kiwieats.repositories.order.OrderRepository;
+import org.delivery.kiwieats.repositories.product.ProductRepository;
+import org.delivery.kiwieats.repositories.rider.RiderRepository;
+import org.delivery.kiwieats.repositories.seller.SellerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
