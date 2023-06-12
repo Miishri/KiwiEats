@@ -1,12 +1,11 @@
-package org.delivery.kiwieats.controller;
+package org.delivery.kiwieats.controller.rider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RestController
 @RequiredArgsConstructor
-public class CustomerController {
-
+@RestController
+public class RiderController {
 }

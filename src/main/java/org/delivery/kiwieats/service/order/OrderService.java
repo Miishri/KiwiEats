@@ -1,6 +1,6 @@
 package org.delivery.kiwieats.service.order;
 
-import org.delivery.kiwieats.entities.Order;
+import org.delivery.kiwieats.entities.order.Order;
 
 import java.util.List;
 import java.util.Optional;

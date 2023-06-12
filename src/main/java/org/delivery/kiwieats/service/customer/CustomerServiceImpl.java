@@ -1,7 +1,7 @@
 package org.delivery.kiwieats.service.customer;
 
 import lombok.RequiredArgsConstructor;
-import org.delivery.kiwieats.entities.Customer;
+import org.delivery.kiwieats.entities.customer.Customer;
 import org.delivery.kiwieats.entities.UserDetails;
 import org.delivery.kiwieats.repositories.CustomerRepository;
 import org.delivery.kiwieats.repositories.UserDetailsRepository;

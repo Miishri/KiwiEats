@@ -1,7 +1,9 @@
-package org.delivery.kiwieats.entities;
+package org.delivery.kiwieats.entities.product;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.delivery.kiwieats.entities.seller.Seller;
+import org.delivery.kiwieats.entities.order.Order;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

@@ -1,9 +1,9 @@
-package org.delivery.kiwieats.entities;
+package org.delivery.kiwieats.entities.customer;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.delivery.kiwieats.entities.order.Order;
 
-import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,19 +13,14 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "riders")
-public class Rider {
+@Table(name = "customer")
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToMany(mappedBy = "rider")
+    @OneToMany(mappedBy = "customer")
     private Set<Order> orders;
 
-    private BigDecimal tips;
-
-    private BigDecimal totalPaid;
-
-    private Boolean verified;
 }

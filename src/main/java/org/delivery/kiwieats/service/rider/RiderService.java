@@ -1,6 +1,6 @@
 package org.delivery.kiwieats.service.rider;
 
-import org.delivery.kiwieats.entities.Rider;
+import org.delivery.kiwieats.entities.rider.Rider;
 
 import java.util.List;
 import java.util.Optional;

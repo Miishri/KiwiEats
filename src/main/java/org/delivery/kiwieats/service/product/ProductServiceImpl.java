@@ -1,7 +1,7 @@
 package org.delivery.kiwieats.service.product;
 
 import lombok.RequiredArgsConstructor;
-import org.delivery.kiwieats.entities.Product;
+import org.delivery.kiwieats.entities.product.Product;
 import org.delivery.kiwieats.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
