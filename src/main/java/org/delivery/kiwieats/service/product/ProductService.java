@@ -1,17 +1,17 @@
 package org.delivery.kiwieats.service.product;
 
-import org.delivery.kiwieats.model.product.ProductDTO;
+import org.delivery.kiwieats.entities.Product;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-    List<ProductDTO> listProducts();
-    Optional<ProductDTO> getProductById();
+    List<Product> listProducts();
+    Optional<Product> getProductById(Long productId);
 
-    ProductDTO saveProduct(ProductDTO productDTO);
+    Product saveProduct(Product product);
 
-    Optional<ProductDTO> updateProductById(Long productId, ProductDTO productDTO);
+    Optional<Product> updateProductById(Long productId, Product product);
 
     Boolean deleteProductById(Long productId);
 

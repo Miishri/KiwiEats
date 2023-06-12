@@ -1,18 +1,18 @@
 package org.delivery.kiwieats.service.customer;
 
-import org.delivery.kiwieats.model.customer.CustomerDTO;
+import org.delivery.kiwieats.entities.Customer;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerService {
-    List<CustomerDTO> listCustomers();
-    Optional<CustomerDTO> getCustomerById();
+    List<Customer> listCustomers();
+    Optional<Customer> getCustomerById(UUID customerId);
 
-    CustomerDTO saveCustomer(CustomerDTO customerDTO);
+    Customer saveCustomer(Customer customer);
 
-    Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customerDTO);
+    Optional<Customer> updateCustomerById(UUID customerId, Customer customer);
 
     Boolean deleteCustomerById(UUID customerId);
 

@@ -1,18 +1,18 @@
 package org.delivery.kiwieats.service.rider;
 
-import org.delivery.kiwieats.model.rider.RiderDTO;
+import org.delivery.kiwieats.entities.Rider;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface RiderService {
-    List<RiderDTO> listRiders();
-    Optional<RiderDTO> getRiderById();
+    List<Rider> listRiders();
+    Optional<Rider> getRiderById(UUID riderId);
 
-    RiderDTO saveRider(RiderDTO riderDTO);
+    Rider saveRider(Rider rider);
 
-    Optional<RiderDTO> updateRiderById(UUID riderId, RiderDTO riderDTO);
+    Optional<Rider> updateRiderById(UUID riderId, Rider rider);
 
     Boolean deleteRiderById(UUID riderId);
 }
