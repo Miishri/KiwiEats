@@ -1,29 +1,36 @@
-package org.delivery.kiwieats.model.seller;
+package org.delivery.kiwieats.entities;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Data;
-import org.delivery.kiwieats.entities.product.Product;
-import org.delivery.kiwieats.entities.seller.SellerDetails;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-@Data
-public class SellerDTO {
+@Entity
+@Table(name = "sellers")
+public class Seller {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     private Integer totalCustomers;
 
-    private SellerDetails sellerDetails;
-
+    @OneToMany(mappedBy = "seller")
     private Set<Product> products;
 
     private BigDecimal revenue;
+
     @NotNull
     @NotBlank
     private Boolean verified;
+
 }
