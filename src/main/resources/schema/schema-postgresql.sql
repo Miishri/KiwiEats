@@ -1,101 +1,78 @@
-CREATE TABLE IF NOT EXISTS customer (
-                                        customer_id UUID PRIMARY KEY,
-                                        total_orders INTEGER,
-                                        verified BOOLEAN NOT NULL
+-- Customer table
+CREATE TABLE customer (
+    id UUID PRIMARY KEY
 );
 
-CREATE TABLE IF NOT EXISTS customer_details (
-                                                id SERIAL PRIMARY KEY,
-                                                customer_id UUID REFERENCES customer (customer_id),
-                                                first_name VARCHAR(255) NOT NULL,
-                                                last_name VARCHAR(255),
-                                                email VARCHAR(255) NOT NULL,
-                                                password VARCHAR(255),
-                                                phone INTEGER NOT NULL,
-                                                street VARCHAR(255) NOT NULL,
-                                                care_of VARCHAR(255),
-                                                city VARCHAR(80) NOT NULL,
-                                                country VARCHAR(60) NOT NULL,
-                                                post_code INTEGER,
-                                                registered_date TIMESTAMP,
-                                                verified BOOLEAN NOT NULL
+-- Order table
+CREATE TABLE orders (
+                        id SERIAL PRIMARY KEY,
+                        order_details VARCHAR(255) NOT NULL,
+                        quantity INT CHECK (quantity >= 1 AND quantity <= 50),
+                        active BOOLEAN,
+                        ordered_date TIMESTAMP,
+                        customer_id UUID,
+                        rider_id UUID,
+                        FOREIGN KEY (customer_id) REFERENCES customer (id),
+                        FOREIGN KEY (rider_id) REFERENCES riders (id)
 );
 
-CREATE TABLE IF NOT EXISTS rider (
-                                     rider_id UUID PRIMARY KEY,
-                                     tips NUMERIC,
-                                     total_paid NUMERIC
+-- Product table
+CREATE TABLE products (
+                          id SERIAL PRIMARY KEY,
+                          product_name VARCHAR(255) NOT NULL,
+                          product_description VARCHAR(255) NOT NULL,
+                          product_image_link VARCHAR(255) NOT NULL,
+                          product_type VARCHAR(255),
+                          product_stock INT CHECK (product_stock >= 1),
+                          price NUMERIC CHECK (price >= 1),
+                          order_id INT,
+                          seller_id UUID,
+                          created_date TIMESTAMP,
+                          updated_date TIMESTAMP,
+                          FOREIGN KEY (order_id) REFERENCES orders (id),
+                          FOREIGN KEY (seller_id) REFERENCES sellers (id)
 );
 
-CREATE TABLE IF NOT EXISTS rider_details (
-                                             id SERIAL PRIMARY KEY,
-                                             rider_id UUID REFERENCES rider (rider_id),
-                                             first_name VARCHAR(255) NOT NULL,
-                                             last_name VARCHAR(255),
-                                             email VARCHAR(255) NOT NULL,
-                                             password VARCHAR(255),
-                                             phone INTEGER NOT NULL,
-                                             street VARCHAR(255) NOT NULL,
-                                             care_of VARCHAR(255),
-                                             city VARCHAR(80) NOT NULL,
-                                             country VARCHAR(60) NOT NULL,
-                                             post_code INTEGER,
-                                             registered_date TIMESTAMP,
-                                             verified BOOLEAN NOT NULL
+-- Rider table
+CREATE TABLE riders (
+                        id UUID PRIMARY KEY,
+                        tips NUMERIC,
+                        total_paid NUMERIC,
+                        verified BOOLEAN NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS seller (
-                                      seller_id UUID PRIMARY KEY,
-                                      total_customers INTEGER,
-                                      revenue NUMERIC,
-                                      verified BOOLEAN NOT NULL
+-- RiderDetails table
+CREATE TABLE rider_details (
+                               id SERIAL PRIMARY KEY,
+                               rider_id UUID,
+                               first_name VARCHAR(255) NOT NULL,
+                               last_name VARCHAR(255),
+                               email VARCHAR(255) NOT NULL,
+                               password VARCHAR(255),
+                               phone INT NOT NULL,
+                               street VARCHAR(255) NOT NULL,
+                               care_of VARCHAR(255),
+                               city VARCHAR(80) NOT NULL,
+                               country VARCHAR(60) NOT NULL,
+                               post_code INT,
+                               registered_date TIMESTAMP,
+                               verified BOOLEAN NOT NULL,
+                               FOREIGN KEY (rider_id) REFERENCES riders (id)
 );
 
-CREATE TABLE IF NOT EXISTS seller_details (
-                                              id SERIAL PRIMARY KEY,
-                                              seller_id UUID REFERENCES seller (seller_id),
-                                              first_name VARCHAR(255) NOT NULL,
-                                              last_name VARCHAR(255),
-                                              email VARCHAR(255) NOT NULL,
-                                              password VARCHAR(255),
-                                              phone INTEGER NOT NULL,
-                                              street VARCHAR(255) NOT NULL,
-                                              care_of VARCHAR(255),
-                                              city VARCHAR(80) NOT NULL,
-                                              country VARCHAR(60) NOT NULL,
-                                              post_code INTEGER,
-                                              registered_date TIMESTAMP,
-                                              verified BOOLEAN NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS orders (
-                                      id SERIAL PRIMARY KEY,
-                                      order_details VARCHAR(255) NOT NULL,
-                                      quantity INTEGER,
-                                      active BOOLEAN,
-                                      ordered_date TIMESTAMP,
-                                      customer_id UUID REFERENCES customer (customer_id),
-                                      rider_id UUID REFERENCES rider (rider_id)
-);
-
-CREATE TABLE IF NOT EXISTS product (
-                                       id SERIAL PRIMARY KEY,
-                                       product_name VARCHAR(255) NOT NULL,
-                                       product_description VARCHAR(255) NOT NULL,
-                                       product_image_link VARCHAR(255) NOT NULL,
-                                       product_type VARCHAR(255),
-                                       product_stock INTEGER,
-                                       price NUMERIC,
-                                       order_id BIGINT REFERENCES orders (id),
-                                       seller_id UUID REFERENCES seller (seller_id),
-                                       created_date TIMESTAMP,
-                                       updated_date TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS discount (
-                                        id SERIAL PRIMARY KEY,
-                                        customer_id UUID REFERENCES customer (customer_id),
-                                        product_type VARCHAR(255),
-                                        discount_percentage NUMERIC,
-                                        valid BOOLEAN
+-- UserDetails table
+CREATE TABLE user_details (
+                              id SERIAL PRIMARY KEY,
+                              user_id UUID,
+                              first_name VARCHAR(255) NOT NULL,
+                              last_name VARCHAR(255),
+                              email VARCHAR(255) NOT NULL,
+                              password VARCHAR(255),
+                              phone INT NOT NULL,
+                              street VARCHAR(255) NOT NULL,
+                              care_of VARCHAR(255),
+                              city VARCHAR(80) NOT NULL,
+                              country VARCHAR(60) NOT NULL,
+                              post_code INT,
+                              registered_date TIMESTAMP
 );
