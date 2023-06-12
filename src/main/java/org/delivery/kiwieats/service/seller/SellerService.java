@@ -1,6 +1,6 @@
 package org.delivery.kiwieats.service.seller;
 
-import org.delivery.kiwieats.entities.seller.Seller;
+import org.delivery.kiwieats.entities.Seller;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface SellerService {
     List<Seller> listSellers();
-    Optional<Seller> getSellerById();
+    Optional<Seller> getSellerById(UUID sellerId);
 
     Seller saveSeller(Seller seller);
 

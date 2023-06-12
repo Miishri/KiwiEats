@@ -1,4 +1,4 @@
-package org.delivery.kiwieats.service;
+package org.delivery.kiwieats.service.order;
 
 import org.delivery.kiwieats.entities.Order;
 
@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface OrderService {
     List<Order> listOrders();
-    Optional<Order> getOrderById();
+    Optional<Order> getOrderById(Long orderId);
 
     Order saveOrder(Order order);
 
