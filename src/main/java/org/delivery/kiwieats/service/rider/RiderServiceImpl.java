@@ -3,7 +3,7 @@ package org.delivery.kiwieats.service.rider;
 import lombok.RequiredArgsConstructor;
 import org.delivery.kiwieats.entities.rider.Rider;
 import org.delivery.kiwieats.entities.UserDetails;
-import org.delivery.kiwieats.repositories.rider.RiderRepository;
+import org.delivery.kiwieats.repositories.RiderRepository;
 import org.delivery.kiwieats.repositories.UserDetailsRepository;
 import org.springframework.stereotype.Service;
 
