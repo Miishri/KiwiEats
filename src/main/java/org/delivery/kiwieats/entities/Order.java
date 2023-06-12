@@ -1,8 +1,6 @@
 package org.delivery.kiwieats.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -23,11 +21,9 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
     @Column(name = "order_details")
     private String orderDetails;
 
-    @Size(min = 1, max = 50)
     @Column(name = "quantity")
     private Integer quantity;
 

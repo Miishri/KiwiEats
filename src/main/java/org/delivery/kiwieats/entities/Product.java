@@ -1,9 +1,6 @@
 package org.delivery.kiwieats.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,24 +20,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @NotBlank
     private String productName;
 
-    @NotNull
-    @NotBlank
     private String productDescription;
 
-    @NotNull
-    @NotBlank
     private String productImageLink;
 
     private ProductType productType;
 
-    @Size(min = 1)
     private Integer productStock;
 
-    @Size(min = 1)
     private BigDecimal price;
 
     @ManyToOne
