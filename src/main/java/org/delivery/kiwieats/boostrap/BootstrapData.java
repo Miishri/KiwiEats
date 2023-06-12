@@ -9,11 +9,11 @@ import org.delivery.kiwieats.entities.product.ProductType;
 import org.delivery.kiwieats.entities.rider.Rider;
 import org.delivery.kiwieats.entities.seller.Seller;
 import org.delivery.kiwieats.repositories.*;
-import org.delivery.kiwieats.repositories.customer.CustomerRepository;
-import org.delivery.kiwieats.repositories.order.OrderRepository;
-import org.delivery.kiwieats.repositories.product.ProductRepository;
-import org.delivery.kiwieats.repositories.rider.RiderRepository;
-import org.delivery.kiwieats.repositories.seller.SellerRepository;
+import org.delivery.kiwieats.repositories.CustomerRepository;
+import org.delivery.kiwieats.repositories.OrderRepository;
+import org.delivery.kiwieats.repositories.ProductRepository;
+import org.delivery.kiwieats.repositories.RiderRepository;
+import org.delivery.kiwieats.repositories.SellerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,43 +34,45 @@ public class BootstrapData implements CommandLineRunner {
     private final CustomerRepository customerRepository;
     private final UserDetailsRepository detailsRepository;
 
+    private Set<Order> orders;
+    private Customer savedCustomer;
     @Transactional
     @Override
     public void run(String... args) throws Exception {
         loadSellerAndProduct();
         loadTestProducts();
         loadCustomer();
-        getTestOrders();
     }
 
     private void loadSellerAndProduct() {
 
-        Seller seller = Seller.builder()
-                .totalCustomers(0)
-                .revenue(new BigDecimal("1100.90"))
-                .verified(true)
-                .build();
-
         if (sellerRepository.count() == 0) {
+
+            Seller seller = Seller.builder()
+                    .totalCustomers(0)
+                    .revenue(new BigDecimal("1100.90"))
+                    .verified(true)
+                    .build();
+
+
             sellerRepository.save(seller);
         }
 
-        UserDetails userDetails = UserDetails.builder()
-                .userId(sellerRepository.findAll().get(0).getId())
-                .firstName("test")
-                .lastName("seller")
-                .email("testSeller@gmail.com")
-                .password("random_string")
-                .street("seller street")
-                .careOf("proSeller")
-                .city("London")
-                .postCode(14143)
-                .phone(151412315)
-                .verified(true)
-                .country("UK")
-                .build();
-
-        if (detailsRepository.count() == 0) {
+        if (detailsRepository.count() < 3) {
+            UserDetails userDetails = UserDetails.builder()
+                    .userId(sellerRepository.findAll().get(0).getId())
+                    .firstName("test")
+                    .lastName("seller")
+                    .email("testSeller@gmail.com")
+                    .password("random_string")
+                    .street("seller street")
+                    .careOf("proSeller")
+                    .city("London")
+                    .postCode(14143)
+                    .phone(151412315)
+                    .verified(true)
+                    .country("UK")
+                    .build();
             detailsRepository.save(userDetails);
         }
     }
@@ -79,7 +81,6 @@ public class BootstrapData implements CommandLineRunner {
         Customer customer = Customer.builder().build();
 
         UserDetails userDetails = UserDetails.builder()
-                .userId(customerRepository.save(customer).getId())
                 .firstName("test")
                 .lastName("customer")
                 .email("testCustomer@gmail.com")
@@ -93,20 +94,23 @@ public class BootstrapData implements CommandLineRunner {
                 .country("Germany")
                 .build();
 
-        customer.setOrders(getTestOrders());
         if (customerRepository.count() == 0) {
-            customerRepository.save(customer);
+            loadTestOrders();
+            customer.setOrders(orders);
+            this.savedCustomer = customerRepository.save(customer);
+            userDetails.setUserId(savedCustomer.getId());
         }
 
-        if (detailsRepository.count() == 1) {
+        if (detailsRepository.count() < 3) {
             detailsRepository.save(userDetails);
         }
     }
-    private Set<Order> getTestOrders() {
+    private void loadTestOrders() {
+
         Order orders = Order.builder()
                 .orderDetails("Products")
                 .quantity(1)
-                .customer(customerRepository.findAll().get(0))
+                .customer(savedCustomer)
                 .active(true)
                 .products(new HashSet<>(productRepository.findAll()))
                 .build();
@@ -119,98 +123,105 @@ public class BootstrapData implements CommandLineRunner {
                 .build();
 
         rider.setOrders(Set.of(orders));
+        riderRepository.save(rider);
 
-        UserDetails userDetails = UserDetails.builder()
-                .userId(riderRepository.save(rider).getId())
-                .firstName("test")
-                .lastName("rider")
-                .email("testRider@gmail.com")
-                .password("not_random")
-                .street("rider street")
-                .careOf("proRider")
-                .city("Stockholm")
-                .postCode(12314)
-                .phone(124074068)
-                .verified(false)
-                .country("SE")
-                .build();
-        orders.setRider(riderRepository.findAll().get(0));
+        if (detailsRepository.count() < 3) {
 
-        if (detailsRepository.count() == 2) {
+            UserDetails userDetails = UserDetails.builder()
+                    .userId(riderRepository.findAll().get(0).getId())
+                    .firstName("test")
+                    .lastName("rider")
+                    .email("testRider@gmail.com")
+                    .password("not_random")
+                    .street("rider street")
+                    .careOf("proRider")
+                    .city("Stockholm")
+                    .postCode(12314)
+                    .phone(124074068)
+                    .verified(false)
+                    .country("SE")
+                    .build();
+
+            orders.setRider(riderRepository.findAll().get(0));
+
+
             detailsRepository.save(userDetails);
         }
+
         if (orderRepository.count() == 0) {
-            orderRepository.save(orders);
+            this.orders = Set.of(orderRepository.save(orders));
         }
-        return orderRepository.findAll().get(0).getCustomer().getOrders();
     }
+
     private void loadTestProducts() {
 
-        Product cream = Product.builder()
-                .productName("Cream")
-                .productDescription("Cream to become white")
-                .productImageLink(PEXELS_URL+"hands-woman-girl-morning-4046316/")
-                .productType(ProductType.BEAUTY)
-                .price(new BigDecimal("11.99"))
-                .productStock(15)
-                .order(null)
-                .build();
-        Product blender = Product.builder()
-                .productName("Blender")
-                .productDescription("Silky smooth shakes")
-                .productImageLink(PEXELS_URL+"fruits-slices-on-a-blender-3094227/")
-                .productType(ProductType.TECHNOLOGY)
-                .price(new BigDecimal("26.10"))
-                .productStock(20)
-                .order(null)
-                .build();
-        Product keyboard = Product.builder()
-                .productName("Mechanical Keyboard")
-                .productDescription("Level up your gaming response")
-                .productImageLink(PEXELS_URL+"close-up-photo-of-person-s-hand-on-mechanical-keyboard-7915219/")
-                .productType(ProductType.GAMING)
-                .price(new BigDecimal("20"))
-                .productStock(5)
-                .order(null)
-                .build();
-        Product dress = Product.builder()
-                .productName("Red Dresses")
-                .productDescription("Look the most prettiest!")
-                .productImageLink(PEXELS_URL+"photo-of-women-s-clothing-1488463/")
-                .productType(ProductType.CLOTHING)
-                .price(new BigDecimal("30.99"))
-                .productStock(29)
-                .order(null)
-                .build();
-        Product biryani = Product.builder()
-                .productName("Biryani")
-                .productDescription("Take a spoonful of this yummy biryani")
-                .productImageLink(PEXELS_URL+"biryani-rice-in-a-bowl-12737656/")
-                .productType(ProductType.FOOD)
-                .price(new BigDecimal("6"))
-                .productStock(60)
-                .order(null)
-                .build();
-        Product protein = Product.builder()
-                .productName("Protein Powder")
-                .productDescription("Lose fat, Gain muscles")
-                .productImageLink(PEXELS_URL+"shallow-focus-of-chocolate-drink-926361/")
-                .productType(ProductType.GYM)
-                .price(new BigDecimal("18.99"))
-                .productStock(120)
-                .order(null)
-                .build();
-        Product gift = Product.builder()
-                .productName("Marriage Present")
-                .productDescription("Make them feel the happiest and luckiest")
-                .productImageLink(PEXELS_URL+"several-gift-boxes-1666069/")
-                .productType(ProductType.GIFT)
-                .price(new BigDecimal("50"))
-                .productStock(9)
-                .order(null)
-                .build();
-
         if (productRepository.count() == 0) {
+
+            Product cream = Product.builder()
+                    .productName("Cream")
+                    .productDescription("Cream to become white")
+                    .productImageLink(PEXELS_URL+"hands-woman-girl-morning-4046316/")
+                    .productType(ProductType.BEAUTY)
+                    .price(new BigDecimal("11.99"))
+                    .productStock(15)
+                    .order(null)
+                    .build();
+            Product blender = Product.builder()
+                    .productName("Blender")
+                    .productDescription("Silky smooth shakes")
+                    .productImageLink(PEXELS_URL+"fruits-slices-on-a-blender-3094227/")
+                    .productType(ProductType.TECHNOLOGY)
+                    .price(new BigDecimal("26.10"))
+                    .productStock(20)
+                    .order(null)
+                    .build();
+            Product keyboard = Product.builder()
+                    .productName("Mechanical Keyboard")
+                    .productDescription("Level up your gaming response")
+                    .productImageLink(PEXELS_URL+"close-up-photo-of-person-s-hand-on-mechanical-keyboard-7915219/")
+                    .productType(ProductType.GAMING)
+                    .price(new BigDecimal("20"))
+                    .productStock(5)
+                    .order(null)
+                    .build();
+            Product dress = Product.builder()
+                    .productName("Red Dresses")
+                    .productDescription("Look the most prettiest!")
+                    .productImageLink(PEXELS_URL+"photo-of-women-s-clothing-1488463/")
+                    .productType(ProductType.CLOTHING)
+                    .price(new BigDecimal("30.99"))
+                    .productStock(29)
+                    .order(null)
+                    .build();
+            Product biryani = Product.builder()
+                    .productName("Biryani")
+                    .productDescription("Take a spoonful of this yummy biryani")
+                    .productImageLink(PEXELS_URL+"biryani-rice-in-a-bowl-12737656/")
+                    .productType(ProductType.FOOD)
+                    .price(new BigDecimal("6"))
+                    .productStock(60)
+                    .order(null)
+                    .build();
+            Product protein = Product.builder()
+                    .productName("Protein Powder")
+                    .productDescription("Lose fat, Gain muscles")
+                    .productImageLink(PEXELS_URL+"shallow-focus-of-chocolate-drink-926361/")
+                    .productType(ProductType.GYM)
+                    .price(new BigDecimal("18.99"))
+                    .productStock(120)
+                    .order(null)
+                    .build();
+            Product gift = Product.builder()
+                    .productName("Marriage Present")
+                    .productDescription("Make them feel the happiest and luckiest")
+                    .productImageLink(PEXELS_URL+"several-gift-boxes-1666069/")
+                    .productType(ProductType.GIFT)
+                    .price(new BigDecimal("50"))
+                    .productStock(9)
+                    .order(null)
+                    .build();
+
+
             cream.setSeller(sellerRepository.findAll().get(0));
             blender.setSeller(sellerRepository.findAll().get(0));
             keyboard.setSeller(sellerRepository.findAll().get(0));
