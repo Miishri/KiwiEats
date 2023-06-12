@@ -1,4 +1,4 @@
-package org.delivery.kiwieats.repositories.rider;
+package org.delivery.kiwieats.repositories;
 
 import org.delivery.kiwieats.entities.rider.Rider;
 import org.springframework.data.jpa.repository.JpaRepository;

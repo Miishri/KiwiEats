@@ -1,4 +1,4 @@
-package org.delivery.kiwieats.repositories.product;
+package org.delivery.kiwieats.repositories;
 
 import org.delivery.kiwieats.entities.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
