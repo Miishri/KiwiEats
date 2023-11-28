@@ -4,8 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KiwiEatsApplication {
+public class KiwieatsApplication {
+
 	public static void main(String[] args) {
-		SpringApplication.run(KiwiEatsApplication.class, args);
+		SpringApplication.run(KiwieatsApplication.class, args);
 	}
+
 }
