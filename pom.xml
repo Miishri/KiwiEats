@@ -11,7 +11,7 @@
 	<groupId>org.delivery</groupId>
 	<artifactId>kiwieats</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>kiwieats</name>
+	<name>KiwiEats</name>
 	<description>Food Delivery Application</description>
 	<properties>
 		<java.version>17</java.version>

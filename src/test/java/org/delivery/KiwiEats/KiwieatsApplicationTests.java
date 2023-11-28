@@ -1,4 +1,4 @@
-package org.delivery.kiwieats;
+package org.delivery.KiwiEats;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
