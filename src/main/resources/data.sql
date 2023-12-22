@@ -1,0 +1,6 @@
+INSERT INTO PRODUCT (id,product_name,product_image,product_category,product_creation_date,last_updated_date) values (1001,'Apple', 'sample.html','FRUIT', {ts '2023-12-21 18:47:50'},{ts '2023-12-21 18:47:50'});
+INSERT INTO PRODUCT (id,product_name,product_image,product_category,product_creation_date,last_updated_date) values (1002,'Carrot', 'sample.html','VEGETABLE',{ts '2023-12-21 18:47:50'},{ts '2023-12-21 18:47:50'});
+INSERT INTO PRODUCT (id,product_name,product_image,product_category,product_creation_date,last_updated_date) values (1003,'Potato', 'sample.html','VEGETABLE',{ts '2023-12-21 18:47:50'},{ts '2023-12-21 18:47:50'});
+INSERT INTO PRODUCT (id,product_name,product_image,product_category,product_creation_date,last_updated_date) values (1004,'Broccoli', 'sample.html','VEGETABLE',{ts '2023-12-21 18:47:50'},{ts '2023-12-21 18:47:50'});
+INSERT INTO PRODUCT (id,product_name,product_image,product_category,product_creation_date,last_updated_date) values (1005,'Mango', 'sample.html','FRUIT',{ts '2023-12-21 18:47:50'},{ts '2023-12-21 18:47:50'});
+INSERT INTO PRODUCT (id,product_name,product_image,product_category,product_creation_date,last_updated_date) values (1006,'Kiwi', 'sample.html','FRUIT',{ts '2023-12-21 18:47:50'},{ts '2023-12-21 18:47:50'});
