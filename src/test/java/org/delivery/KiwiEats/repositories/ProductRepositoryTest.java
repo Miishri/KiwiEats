@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -30,15 +32,15 @@ public class ProductRepositoryTest {
   @Test
   @Transactional
   public void testCreateProduct() {
-    assertThat(getProductFromRepo().getProductName()).isEqualTo("Apple");
+    assertThat(getProductListFromRepo().get(0).getProductName()).isEqualTo("Apple");
   }
 
   @Test
   @Transactional
   public void testDeleteProductById() {
-    Long id = getProductFromRepo().getId();
+    Long id = getProductListFromRepo().get(0).getId();
     productRepository.deleteById(id);
-    assertThat(productRepository.findAll().size()).isEqualTo(0);
+    assertThat(getProductListFromRepo()).isEmpty();
   }
 
   @AfterAll
@@ -46,7 +48,7 @@ public class ProductRepositoryTest {
     setupRespository.flush();
   }
 
-  private Product getProductFromRepo() {
-    return productRepository.findAll().get(0);
+  private List<Product> getProductListFromRepo() {
+    return productRepository.findAll();
   }
 }
