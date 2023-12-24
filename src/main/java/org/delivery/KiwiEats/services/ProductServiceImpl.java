@@ -1,15 +1,14 @@
 package org.delivery.KiwiEats.services;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.delivery.KiwiEats.entities.Product;
 import org.delivery.KiwiEats.repositories.ProductRepository;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
