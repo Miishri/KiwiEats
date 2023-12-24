@@ -30,6 +30,16 @@ public class ProductRepositoryTest {
   }
 
   @Test
+  public void testGetProductById() {
+      assertThat(getProductListFromRepo().get(0)).isNotNull();
+  }
+
+  @Test
+  public void testGetAllProducts() {
+      assertThat(getProductListFromRepo().size()).isEqualTo(1);
+  }
+
+  @Test
   @Transactional
   public void testCreateProduct() {
     assertThat(getProductListFromRepo().get(0).getProductName()).isEqualTo("Apple");
@@ -44,8 +54,8 @@ public class ProductRepositoryTest {
   }
 
   @AfterAll
-  public static void tearDown(@Autowired ProductRepository setupRespository) {
-    setupRespository.flush();
+  public static void tearDown(@Autowired ProductRepository setupRepository) {
+    setupRepository.flush();
   }
 
   private List<Product> getProductListFromRepo() {
