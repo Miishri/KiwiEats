@@ -30,15 +30,12 @@ public class ProductRepositoryTest {
   @Test
   @Transactional
   public void testCreateProduct() {
-    Product product = Product.builder().productName("Apple").build();
-    assertThat(productRepository.findAll().get(0).getProductName())
-        .isEqualTo(product.getProductName());
+    assertThat(productRepository.findAll().get(0).getProductName()).isEqualTo("Apple");
   }
 
   @Test
   @Transactional
   public void testDeleteProductById() {
-    assertThat(productRepository.findAll().get(0).getProductName()).isEqualTo("Apple");
     Long id = productRepository.findAll().get(0).getId();
     productRepository.deleteById(id);
     assertThat(productRepository.findAll().size()).isEqualTo(0);
