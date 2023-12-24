@@ -30,13 +30,13 @@ public class ProductRepositoryTest {
   @Test
   @Transactional
   public void testCreateProduct() {
-    assertThat(productRepository.findAll().get(0).getProductName()).isEqualTo("Apple");
+    assertThat(getProductFromRepo().getProductName()).isEqualTo("Apple");
   }
 
   @Test
   @Transactional
   public void testDeleteProductById() {
-    Long id = productRepository.findAll().get(0).getId();
+    Long id = getProductFromRepo().getId();
     productRepository.deleteById(id);
     assertThat(productRepository.findAll().size()).isEqualTo(0);
   }
@@ -44,5 +44,9 @@ public class ProductRepositoryTest {
   @AfterAll
   public static void tearDown(@Autowired ProductRepository setupRespository) {
     setupRespository.flush();
+  }
+
+  private Product getProductFromRepo() {
+    return productRepository.findAll().get(0);
   }
 }
