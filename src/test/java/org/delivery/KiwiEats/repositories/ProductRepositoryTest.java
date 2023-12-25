@@ -1,5 +1,8 @@
 package org.delivery.KiwiEats.repositories;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 import org.delivery.KiwiEats.entities.Category;
 import org.delivery.KiwiEats.entities.Product;
 import org.junit.jupiter.api.AfterAll;
@@ -8,10 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 public class ProductRepositoryTest {
@@ -31,12 +30,12 @@ public class ProductRepositoryTest {
 
   @Test
   public void testGetProductById() {
-      assertThat(getProductListFromRepo().get(0)).isNotNull();
+    assertThat(getProductListFromRepo().get(0)).isNotNull();
   }
 
   @Test
   public void testGetAllProducts() {
-      assertThat(getProductListFromRepo().size()).isEqualTo(1);
+    assertThat(getProductListFromRepo().size()).isEqualTo(1);
   }
 
   @Test
