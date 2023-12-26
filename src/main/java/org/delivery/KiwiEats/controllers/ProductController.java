@@ -28,6 +28,17 @@ public class ProductController {
     private final ProductService productService;
     private final ProductModelAssembler productModelAssembler;
 
+    @PostMapping(PRODUCT_PATH)
+    public ResponseEntity<?> createProduct(@RequestBody Product product) {
+        Product createdProduct = productService.createProduct(product);
+
+        EntityModel<Product> entityModel = productModelAssembler.toModel(createdProduct);
+
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF)
+                        .toUri()).body(entityModel);
+    }
+
     @GetMapping(PRODUCT_PATH_ID)
     public EntityModel<Product> getProductById(@PathVariable("productId") Long productId) {
         log.debug("CONTROLLER - Get product by ID - Product ID: " + productId + " - CONTROLLER");
@@ -57,5 +68,12 @@ public class ProductController {
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF)
                         .toUri()).body(entityModel);
+    }
+
+    @DeleteMapping(PRODUCT_PATH_ID)
+    public ResponseEntity<?> deleteProductById(@PathVariable("productId") Long productId) {
+        Boolean isDeleted = productService.deleteProductById(productId);
+        if(!isDeleted) throw new NotFoundException();
+        return ResponseEntity.noContent().build();
     }
 }

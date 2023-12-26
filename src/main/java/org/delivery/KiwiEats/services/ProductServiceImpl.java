@@ -1,11 +1,13 @@
 package org.delivery.KiwiEats.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.delivery.KiwiEats.entities.Product;
+import org.delivery.KiwiEats.exceptions.NotFoundException;
 import org.delivery.KiwiEats.repositories.ProductRepository;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
@@ -59,12 +61,14 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Product deleteProductById(Long id) {
-    if (!productRepository.existsById(id))
-      throw new ServiceException("Product not found with ID: " + id);
-    Product product = productRepository.findById(id).get();
-    productRepository.deleteById(id);
-    log.debug("--SERVICE--Product with ID: " + id + " was deleted--");
-    return product;
+  public Boolean deleteProductById(Long id) {
+    try {
+      Product product = productRepository.findById(id).get();
+      productRepository.deleteById(product.getId());
+      log.debug("--SERVICE--Product with ID: " + id + " was deleted--");
+    } catch (NoSuchElementException exception) {
+      throw new NotFoundException();
+    }
+    return true;
   }
 }
