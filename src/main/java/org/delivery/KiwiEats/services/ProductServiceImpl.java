@@ -62,13 +62,11 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public Boolean deleteProductById(Long id) {
-    try {
-      Product product = productRepository.findById(id).get();
-      productRepository.deleteById(product.getId());
+    if (productRepository.existsById(id)) {
+      productRepository.deleteById(id);
       log.debug("--SERVICE--Product with ID: " + id + " was deleted--");
-    } catch (NoSuchElementException exception) {
-      throw new NotFoundException();
+      return true;
     }
-    return true;
+    return false;
   }
 }
