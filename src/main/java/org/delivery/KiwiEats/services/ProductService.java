@@ -13,5 +13,5 @@ public interface ProductService {
 
   Optional<Product> updateProductById(Long id, Product product);
 
-  Product deleteProductById(Long id);
+  Boolean deleteProductById(Long id);
 }
