@@ -4,9 +4,11 @@ import org.delivery.KiwiEats.entities.Category;
 import org.delivery.KiwiEats.entities.Product;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,15 +20,17 @@ public class ProductRepositoryTest {
 
   @Autowired ProductRepository productRepository;
 
-  @BeforeAll
-  public static void setUp(@Autowired ProductRepository setupRepository) {
+  @BeforeEach
+  @Transactional
+  @Rollback
+  public void setUp() {
     Product product =
         Product.builder()
             .productImage("Image")
             .productName("Apple")
             .category(Category.FRUIT)
             .build();
-    setupRepository.save(product);
+    productRepository.save(product);
   }
 
   @Test
