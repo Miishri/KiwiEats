@@ -1,35 +1,21 @@
 package org.delivery.KiwiEats.controllers;
 
-import org.delivery.KiwiEats.entities.Category;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.delivery.KiwiEats.entities.Product;
 import org.delivery.KiwiEats.repositories.ProductRepository;
 import org.delivery.KiwiEats.services.ProductService;
 import org.delivery.KiwiEats.services.ProductServiceImpl;
-import org.junit.jupiter.api.*;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -45,19 +31,15 @@ class ProductControllerTest {
     @Autowired
     ProductService productService;
 
-    @BeforeEach
-    void beforeEach() {
-        Product product = Product.builder()
-                .productImage("Image")
-                .productName("Test Product")
-                .category(Category.VEGETABLE)
-                .build();
-        productRepository.save(product);
-    }
+    @Autowired
+    ProductServiceImpl productServiceImpl;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     void getProductById() throws Exception {
-        Product product = productRepository.findAll().get(0);
+        Product product = productServiceImpl.getAllProducts().get(0);
         mockMvc.perform(get(ProductController.PRODUCT_PATH_ID, product.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -77,15 +59,20 @@ class ProductControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()", is(1)));
+                .andExpect(jsonPath("$._embedded.productList.length()", is(1)));
     }
 
     @Test
-    void updateProductById() {
-    }
+    void updateProductById() throws Exception {
+        Product product = productServiceImpl.getAllProducts().get(0);
+        product.setProductName("Tested Product");
 
-    @AfterEach
-    void afterEach() {
-        productRepository.findAll();
+        mockMvc.perform(put(ProductController.PRODUCT_PATH_ID, product.getId())
+                .content(objectMapper.writeValueAsString(product))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        assertThat(product.getProductName()).isEqualTo(productService.getProductById(product.getId()).get().getProductName());
     }
 }
