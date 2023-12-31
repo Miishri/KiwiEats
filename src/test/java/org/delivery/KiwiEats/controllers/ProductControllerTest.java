@@ -84,9 +84,10 @@ class ProductControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
+    Long productId = productServiceImpl.getAllProducts().get(0).getId();
 
     assertThat(product.getProductName())
-        .isEqualTo(productService.getProductById(1L).get().getProductName());
+        .isEqualTo(productService.getProductById(productId).get().getProductName());
   }
 
   @Test
