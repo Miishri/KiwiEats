@@ -1,9 +1,10 @@
 package org.delivery.KiwiEats.models;
 
-import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.delivery.KiwiEats.entities.Category;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
@@ -11,10 +12,8 @@ import org.hibernate.validator.constraints.URL;
 import java.sql.Timestamp;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class ProductDTO {
-    @NotNull
     private Long id;
 
     @NotNull
@@ -26,7 +25,6 @@ public class ProductDTO {
     @URL(protocol = "https",message = "Image is not in the right format!")
     private String productImage;
 
-    @NotNull
     @NotBlank(message = "Category cannot be empty")
     private Category category;
 
@@ -35,7 +33,6 @@ public class ProductDTO {
     @Size(min = 1, max = 1000)
     private Double price;
 
-    @NotNull
     private Timestamp creationDate;
 
     @NotNull
