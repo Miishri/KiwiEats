@@ -1,17 +1,18 @@
 package org.delivery.KiwiEats.services;
 
+import org.delivery.KiwiEats.models.ProductDTO;
+
 import java.util.List;
 import java.util.Optional;
-import org.delivery.KiwiEats.entities.Product;
 
 public interface ProductService {
-  Optional<Product> getProductById(Long id);
+  Optional<ProductDTO> getProductById(Long id);
 
-  List<Product> getAllProducts();
+  List<ProductDTO> getAllProducts();
 
-  Product createProduct(Product product);
+  ProductDTO createProduct(ProductDTO productDTO);
 
-  Optional<Product> updateProductById(Long id, Product product);
+  Optional<ProductDTO> updateProductById(Long id, ProductDTO productDTO);
 
   Boolean deleteProductById(Long id);
 }

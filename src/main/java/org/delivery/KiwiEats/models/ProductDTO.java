@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.delivery.KiwiEats.entities.Category;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
@@ -13,6 +15,8 @@ import java.sql.Timestamp;
 
 @Data
 @Builder
+@Getter
+@Setter
 public class ProductDTO {
     private Long id;
 
