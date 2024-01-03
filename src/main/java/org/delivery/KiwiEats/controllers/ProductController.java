@@ -2,8 +2,8 @@ package org.delivery.KiwiEats.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.delivery.KiwiEats.entities.Product;
 import org.delivery.KiwiEats.exceptions.NotFoundException;
+import org.delivery.KiwiEats.models.ProductDTO;
 import org.delivery.KiwiEats.services.ProductService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -28,10 +28,10 @@ public class ProductController {
     private final ProductModelAssembler productModelAssembler;
 
     @PostMapping(PRODUCT_PATH)
-    public ResponseEntity<?> createProduct(@RequestBody Product product) {
-        Product createdProduct = productService.createProduct(product);
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
+        ProductDTO createdProductDTO = productService.createProduct(productDTO);
 
-        EntityModel<Product> entityModel = productModelAssembler.toModel(createdProduct);
+        EntityModel<ProductDTO> entityModel = productModelAssembler.toModel(createdProductDTO);
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF)
@@ -39,30 +39,30 @@ public class ProductController {
     }
 
     @GetMapping(PRODUCT_PATH_ID)
-    public EntityModel<Product> getProductById(@PathVariable("productId") Long productId) {
+    public EntityModel<ProductDTO> getProductById(@PathVariable("productId") Long productId) {
         log.debug("CONTROLLER - Get product by ID - Product ID: " + productId + " - CONTROLLER");
 
-        Product product = productService.getProductById(productId).orElseThrow(NotFoundException::new);
+        ProductDTO productDTO = productService.getProductById(productId).orElseThrow(NotFoundException::new);
 
-        return productModelAssembler.toModel(product);
+        return productModelAssembler.toModel(productDTO);
     }
 
     @GetMapping(PRODUCT_PATH)
-    public CollectionModel<EntityModel<Product>> getAllProducts() {
+    public CollectionModel<EntityModel<ProductDTO>> getAllProducts() {
 
-        List<EntityModel<Product>> products = productService.getAllProducts().stream().map(productModelAssembler::toModel).toList();
+        List<EntityModel<ProductDTO>> products = productService.getAllProducts().stream().map(productModelAssembler::toModel).toList();
 
         return CollectionModel.of(products, linkTo(methodOn(ProductController.class).getAllProducts()).withSelfRel());
     }
 
     @PutMapping(PRODUCT_PATH_ID)
-    public ResponseEntity<?> updateProductById(@PathVariable("productId") Long productId, @RequestBody Product product) {
+    public ResponseEntity<?> updateProductById(@PathVariable("productId") Long productId, @RequestBody ProductDTO productDTO) {
 
-        Optional<Product> updatedProduct = productService.updateProductById(productId, product);
+        Optional<ProductDTO> updatedProduct = productService.updateProductById(productId, productDTO);
 
         if (updatedProduct.isEmpty()) throw new NotFoundException();
 
-        EntityModel<Product> entityModel = productModelAssembler.toModel(updatedProduct.get());
+        EntityModel<ProductDTO> entityModel = productModelAssembler.toModel(updatedProduct.get());
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF)

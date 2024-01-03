@@ -1,16 +1,15 @@
 package org.delivery.KiwiEats.services;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.delivery.KiwiEats.entities.Product;
-import org.delivery.KiwiEats.exceptions.NotFoundException;
+import org.delivery.KiwiEats.mapper.ProductMapper;
+import org.delivery.KiwiEats.models.ProductDTO;
 import org.delivery.KiwiEats.repositories.ProductRepository;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -18,40 +17,42 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
   private final ProductRepository productRepository;
+  private final ProductMapper productMapper;
 
   @Override
-  public Optional<Product> getProductById(Long id) {
+  public Optional<ProductDTO> getProductById(Long id) {
     log.debug("SERVICE - Get product by ID - Product ID: " + id + " - SERVICE");
-    return productRepository.findById(id);
+    return Optional.ofNullable(productMapper.productToProductDto(productRepository.findById(id).orElse(null)));
   }
 
   @Override
-  public List<Product> getAllProducts() {
+  public List<ProductDTO> getAllProducts() {
     log.debug("SERVICE - Get all products - SERVICE ");
-    return productRepository.findAll();
+    return productRepository.findAll().stream().map(productMapper::productToProductDto).toList();
   }
 
   @Override
-  public Product createProduct(Product product) {
+  public ProductDTO createProduct(ProductDTO productDTO) {
     log.debug("SERVICE--Create new product from controller--SERVICE");
-    return productRepository.save(product);
+
+    return productMapper.productToProductDto(productRepository.save(productMapper.productDtoToProduct(productDTO)));
   }
 
   @Override
-  public Optional<Product> updateProductById(Long id, Product product) {
+  public Optional<ProductDTO> updateProductById(Long id, ProductDTO productDTO) {
     log.debug("SERVICE - Update product by existing product and ID: " + id + " - SERVICE");
-    AtomicReference<Optional<Product>> productReference = new AtomicReference<>();
+    AtomicReference<Optional<ProductDTO>> productReference = new AtomicReference<>();
 
     productRepository
         .findById(id)
         .ifPresentOrElse(
             productFound -> {
-              productFound.setProductImage(product.getProductImage());
-              productFound.setProductName(product.getProductName());
-              productFound.setCategory(product.getCategory());
-              productFound.setCreationDate(product.getCreationDate());
+              productFound.setProductImage(productDTO.getProductImage());
+              productFound.setProductName(productDTO.getProductName());
+              productFound.setCategory(productDTO.getCategory());
+              productFound.setCreationDate(productDTO.getCreationDate());
 
-              productReference.set(Optional.of(productRepository.save(productFound)));
+              productReference.set(Optional.of(productMapper.productToProductDto(productRepository.save(productFound))));
             },
             () -> {
               productReference.set(Optional.empty());

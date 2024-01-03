@@ -3,6 +3,7 @@ package org.delivery.KiwiEats.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.delivery.KiwiEats.entities.Category;
 import org.delivery.KiwiEats.entities.Product;
+import org.delivery.KiwiEats.models.ProductDTO;
 import org.delivery.KiwiEats.repositories.ProductRepository;
 import org.delivery.KiwiEats.services.ProductService;
 import org.delivery.KiwiEats.services.ProductServiceImpl;
@@ -36,15 +37,15 @@ class ProductControllerTest {
 
   @Test
   void getProductById() throws Exception {
-    Product product = productServiceImpl.getAllProducts().get(0);
+    ProductDTO productDTO = productServiceImpl.getAllProducts().get(0);
 
     mockMvc
         .perform(
-            get(ProductController.PRODUCT_PATH_ID, product.getId())
+            get(ProductController.PRODUCT_PATH_ID, productDTO.getId())
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.productName", is(product.getProductName())));
+        .andExpect(jsonPath("$.productName", is(productDTO.getProductName())));
   }
 
   @Test
@@ -59,31 +60,31 @@ class ProductControllerTest {
         .perform(get(ProductController.PRODUCT_PATH).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$._embedded.productList.length()", is(2)));
+        .andExpect(jsonPath("$._embedded.productDTOList.length()", is(2)));
   }
 
   @Test
   void updateProductById() throws Exception {
-    Product product = getProduct();
-    product.setProductName("Tested Product");
+    ProductDTO productDTO = getProduct();
+    productDTO.setProductName("Tested Product");
 
     mockMvc
         .perform(
-            put(ProductController.PRODUCT_PATH_ID, product.getId())
-                .content(objectMapper.writeValueAsString(product))
+            put(ProductController.PRODUCT_PATH_ID, productDTO.getId())
+                .content(objectMapper.writeValueAsString(productDTO))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
 
-    String expected = product.getProductName();
-    String result = productService.getProductById(product.getId()).get().getProductName();
+    String expected = productDTO.getProductName();
+    String result = productService.getProductById(productDTO.getId()).get().getProductName();
 
     assertThat(expected).isEqualTo(result);
   }
 
   @Test
   void createProduct() throws Exception {
-    Product product = Product.builder()
+    Product productDTO = Product.builder()
             .productName("Cherry")
             .productImage("https://i.ibb.co/p1y9sdk/image.png")
             .category(Category.FRUIT)
@@ -93,15 +94,15 @@ class ProductControllerTest {
         .perform(
             post(ProductController.PRODUCT_PATH)
                     .accept(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(product))
+                    .content(objectMapper.writeValueAsString(productDTO))
                     .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
   }
 
   @Test
   void deleteProductById() throws Exception {
-    Product product = Product.builder().productName("Test Product").build();
-    Long productId = productServiceImpl.createProduct(product).getId();
+    ProductDTO productDTO = ProductDTO.builder().productName("Test Product").build();
+    Long productId = productServiceImpl.createProduct(productDTO).getId();
     mockMvc
         .perform(
             delete(ProductController.PRODUCT_PATH_ID, productId)
@@ -117,8 +118,7 @@ class ProductControllerTest {
         .andExpect(status().isNotFound());
   }
 
-
-  private Product getProduct() {
+  private ProductDTO getProduct() {
     return productServiceImpl.getAllProducts().get(0);
   }
 }

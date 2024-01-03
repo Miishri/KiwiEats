@@ -1,10 +1,11 @@
 package org.delivery.KiwiEats.entities;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity
 @Builder
