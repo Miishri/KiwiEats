@@ -19,7 +19,7 @@ public class ProductRepositoryTest {
   @Transactional
   @Rollback
   public void testCreateProduct() {
-    Product savedProductDTO = productRepository.save(Product.builder()
+    Product savedProduct = productRepository.save(Product.builder()
             .productName("Corn")
             .productImage("https://i.ibb.co/vxPqhf6/image.png")
             .category(Category.VEGETABLE)
@@ -27,7 +27,7 @@ public class ProductRepositoryTest {
 
     productRepository.flush();
 
-    assertThat(savedProductDTO).isNotNull();
-    assertThat(savedProductDTO.getId()).isNotNull();
+    assertThat(savedProduct).isNotNull();
+    assertThat(savedProduct.getId()).isNotNull();
   }
 }
