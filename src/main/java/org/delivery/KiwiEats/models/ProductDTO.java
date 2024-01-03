@@ -15,8 +15,6 @@ import java.sql.Timestamp;
 
 @Data
 @Builder
-@Getter
-@Setter
 public class ProductDTO {
     private Long id;
 
