@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Builder
@@ -32,6 +33,9 @@ public class Customer {
 
   @Column(name = "password")
   private String password;
+
+  @OneToMany(mappedBy="customer")
+  private List<Product> cart;
 
   @CreationTimestamp
   @Column(name = "customer_creation_date")
