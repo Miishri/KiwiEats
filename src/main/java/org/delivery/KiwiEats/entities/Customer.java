@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Builder
@@ -14,10 +15,10 @@ import java.util.List;
 @Table(name = "Customer")
 public class Customer {
 
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.UUID)
   @Id
   @Column(name = "customer_id")
-  private Long customerId;
+  private UUID customerId;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "id", referencedColumnName = "customer_id")
