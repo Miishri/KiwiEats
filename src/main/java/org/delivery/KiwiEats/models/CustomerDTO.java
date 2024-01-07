@@ -8,12 +8,11 @@ import org.delivery.KiwiEats.entities.Product;
 import org.delivery.KiwiEats.entities.User;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
 public class CustomerDTO {
-    private UUID customerId;
+    private Long customerId;
 
     @NotNull
     private User user;

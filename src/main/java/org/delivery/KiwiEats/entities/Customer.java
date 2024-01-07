@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Builder
@@ -18,7 +17,7 @@ public class Customer {
   @GeneratedValue(strategy = GenerationType.UUID)
   @Id
   @Column(name = "customer_id")
-  private UUID customerId;
+  private Long customerId;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "id", referencedColumnName = "customer_id")
