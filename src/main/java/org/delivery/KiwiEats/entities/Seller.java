@@ -1,10 +1,15 @@
 package org.delivery.KiwiEats.entities;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -13,14 +18,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table("Seller")
+@Table
 public class Seller {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID")
-    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false, name = "seller_id")
+    @UuidGenerator
     private UUID id;
 
+    @OneToMany
+    private List<Product> stockProducts;
+
+    
+
+    private BigDecimal income;
 
 }

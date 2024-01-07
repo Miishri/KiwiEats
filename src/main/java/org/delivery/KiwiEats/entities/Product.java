@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Product")
+@Table
 public class Product {
 
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,4 +38,7 @@ public class Product {
   @UpdateTimestamp
   @Column(name = "last_updated_date")
   private Timestamp lastUpdatedDate;
+
+  @ManyToOne
+  private Seller seller;
 }
