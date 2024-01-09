@@ -10,6 +10,8 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -39,5 +41,43 @@ public class CustomerController {
         CustomerDTO customerDTO = customerService.getCustomerByUUID(uuid).orElseThrow(NotFoundException::new);
 
         return customerModelAssembler.toModel(customerDTO);
+    }
+
+    @GetMapping(CUSTOMER_PATH + "/{email}")
+    public EntityModel<CustomerDTO> getCustomerByEmail(@PathVariable("email") String email) {
+        log.debug("CONTROLLER - Get Customer by UUID - Customer Email: " + email + " - CONTROLLER");
+
+        CustomerDTO customerDTO = customerService.getCustomerByEmail(email).orElseThrow(NotFoundException::new);
+
+        return customerModelAssembler.toModel(customerDTO);
+    }
+
+    @GetMapping(CUSTOMER_PATH + "/{username}")
+    public EntityModel<CustomerDTO> getCustomerByUsername(@PathVariable("username") String username) {
+        log.debug("CONTROLLER - Get Customer by UUID - Customer Username: " + username + " - CONTROLLER");
+
+        CustomerDTO customerDTO = customerService.getCustomerByUsername(username).orElseThrow(NotFoundException::new);
+
+        return customerModelAssembler.toModel(customerDTO);
+    }
+
+    @PutMapping(CUSTOMER_PATH_UUID)
+    public ResponseEntity<?> modifyCustomer(@PathVariable("uuid") Long uuid, @RequestBody CustomerDTO customerDTO) {
+        Optional<CustomerDTO> updatedCustomer = customerService.modifyCustomer(uuid, customerDTO);
+
+        if (updatedCustomer.isEmpty()) throw new NotFoundException();
+
+        EntityModel<CustomerDTO> entityModel = customerModelAssembler.toModel(updatedCustomer.get());
+
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF)
+                        .toUri()).body(entityModel);
+    }
+
+    @DeleteMapping(CUSTOMER_PATH_UUID)
+    public ResponseEntity<?> deleteCustomer(@PathVariable("uuid") Long uuid) {
+        Boolean isDeleted = customerService.deleteCustomer(uuid);
+        if (!isDeleted) throw new NotFoundException();
+        return ResponseEntity.noContent().build();
     }
 }
