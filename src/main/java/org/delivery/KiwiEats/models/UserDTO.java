@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+import org.delivery.KiwiEats.entities.Seller;
 import org.hibernate.validator.constraints.Length;
 
 @Data
@@ -38,4 +39,6 @@ public class UserDTO {
     @Size(min = 8, max = 20, message = "Password does not have correct length")
     @NotNull
     private String password;
+
+    private Seller seller;
 }

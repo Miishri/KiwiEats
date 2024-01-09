@@ -39,5 +39,8 @@ public class User {
     @UpdateTimestamp
     private Timestamp lastUpdatedDate;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "seller_id", referencedColumnName = "id")
+    private Seller seller;
 }
 
