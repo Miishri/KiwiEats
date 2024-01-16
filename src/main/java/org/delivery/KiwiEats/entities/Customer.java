@@ -20,7 +20,7 @@ public class Customer {
   private Long customerId;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "id", referencedColumnName = "customer_id")
+  @JoinColumn(name = "id", referencedColumnName = "id")
   private User user;
 
   @OneToMany(mappedBy="customer")
