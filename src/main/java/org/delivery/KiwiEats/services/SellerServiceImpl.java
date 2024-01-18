@@ -2,15 +2,11 @@ package org.delivery.KiwiEats.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.delivery.KiwiEats.entities.Seller;
 import org.delivery.KiwiEats.mapper.SellerMapper;
-import org.delivery.KiwiEats.mapper.UserMapper;
-import org.delivery.KiwiEats.models.ProductDTO;
 import org.delivery.KiwiEats.models.SellerDTO;
 import org.delivery.KiwiEats.repositories.SellerRepository;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,7 +18,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SellerServiceImpl implements SellerService{
 
     private final SellerRepository sellerRepository;
-    private final UserMapper userMapper;
     private final SellerMapper sellerMapper;
 
 
@@ -33,7 +28,7 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public List<SellerDTO> getSellers() {
+    public List<SellerDTO> getAllSellers() {
         log.debug("SERVICE - Get all sellers - SERVICE ");
         return sellerRepository
                 .findAll()
@@ -70,7 +65,7 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public Boolean updateSellerById(UUID uuid) {
+    public Boolean deleteSellerById(UUID uuid) {
         if (sellerRepository.existsById(uuid)) {
             sellerRepository.deleteById(uuid);
             return true;

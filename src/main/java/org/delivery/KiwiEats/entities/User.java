@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity
 @Builder
@@ -16,10 +17,10 @@ import java.sql.Timestamp;
 @Table(name = "User_Details")
 public class User {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @Column(name = "id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private UUID id;
 
     private String username;
 
@@ -39,8 +40,7 @@ public class User {
     @UpdateTimestamp
     private Timestamp lastUpdatedDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "seller_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "user")
     private Seller seller;
 }
 

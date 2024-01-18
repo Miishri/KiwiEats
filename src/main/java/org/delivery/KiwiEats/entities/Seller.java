@@ -21,7 +21,8 @@ public class Seller {
     @Column(name = "seller_id")
     private UUID id;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @OneToMany
