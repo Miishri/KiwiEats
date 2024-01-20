@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @Table
 public class Product {
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Id
   private Long id;
 
@@ -33,7 +33,7 @@ public class Product {
   @UpdateTimestamp
   private Timestamp lastUpdatedDate;
 
-  @ManyToOne
-  @JoinColumn(name = "seller_id", nullable = false)
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "seller_id")
   private Seller seller;
 }

@@ -16,8 +16,8 @@ import java.util.List;
 public class Seller {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "seller_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "seller_id", nullable = false)
     private Long id;
 
     @OneToOne(mappedBy = "seller", cascade = CascadeType.ALL)

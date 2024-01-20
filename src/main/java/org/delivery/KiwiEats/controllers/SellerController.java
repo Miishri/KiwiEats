@@ -33,7 +33,7 @@ public class SellerController {
     public ResponseEntity<?> registerSeller(@RequestBody SellerDTO sellerDTO) {
         SellerDTO createdSellerDTO = sellerService.createSeller(sellerDTO);
 
-        EntityModel<SellerDTO> entityModel = sellerModelAssembler.toModel(sellerDTO);
+        EntityModel<SellerDTO> entityModel = sellerModelAssembler.toModel(createdSellerDTO);
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF)

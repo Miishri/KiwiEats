@@ -22,14 +22,14 @@ import java.sql.Timestamp;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Length(max = 50)
     private String username;
 
     @NotNull
-    @NotBlank(message = "First name cannot be empty")
+    @NotBlank(message = "firstName cannot be empty")
     @Length(max = 50)
     private String firstName;
 
@@ -56,7 +56,7 @@ public class User {
     @UpdateTimestamp
     private Timestamp lastUpdatedDate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seller_id", nullable = false)
     private Seller seller;
 }
