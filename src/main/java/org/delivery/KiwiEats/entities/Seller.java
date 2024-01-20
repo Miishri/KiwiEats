@@ -1,15 +1,10 @@
 package org.delivery.KiwiEats.entities;
 
-<<<<<<< HEAD
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import jakarta.persistence.*;
 
 @Getter
 @Setter
