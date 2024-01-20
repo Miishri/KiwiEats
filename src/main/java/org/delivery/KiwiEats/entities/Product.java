@@ -16,29 +16,24 @@ import java.sql.Timestamp;
 @Table
 public class Product {
 
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
-  @Column(name = "id")
   private Long id;
 
-  @Column(name = "product_name")
   private String productName;
 
-  @Column(name = "product_image")
   private String productImage;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "product_category")
   private Category category;
 
   @CreationTimestamp
-  @Column(name = "product_creation_date")
   private Timestamp creationDate;
 
   @UpdateTimestamp
-  @Column(name = "last_updated_date")
   private Timestamp lastUpdatedDate;
 
   @ManyToOne
+  @JoinColumn(name = "seller_id", nullable = false)
   private Seller seller;
 }

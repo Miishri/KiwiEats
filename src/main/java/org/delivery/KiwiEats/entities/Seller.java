@@ -1,16 +1,15 @@
 package org.delivery.KiwiEats.entities;
 
+<<<<<<< HEAD
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
+import jakarta.persistence.*;
 
 @Getter
 @Setter
@@ -22,14 +21,15 @@ import java.util.UUID;
 public class Seller {
 
     @Id
-    @UuidGenerator
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "seller_id")
+    private Long id;
 
-    @OneToMany
-    private List<Product> stockProducts;
+    @OneToOne(mappedBy = "seller", cascade = CascadeType.ALL)
+    private User user;
 
-    
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    private List<Product> productInStock;
 
-    private BigDecimal income;
-
+    private BigDecimal earnings;
 }
