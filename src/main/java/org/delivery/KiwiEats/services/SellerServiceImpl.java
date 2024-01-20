@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
@@ -20,11 +19,10 @@ public class SellerServiceImpl implements SellerService{
     private final SellerRepository sellerRepository;
     private final SellerMapper sellerMapper;
 
-
     @Override
-    public Optional<SellerDTO> getSellerById(UUID uuid) {
-        log.debug("SERVICE - Get seller by ID - Seller ID: " + uuid + " - SERVICE");
-        return Optional.ofNullable(sellerMapper.sellerToSellerDto(sellerRepository.findById(uuid).orElse(null)));
+    public Optional<SellerDTO> getSellerById(Long sellerId) {
+        log.debug("SERVICE - Get seller by ID - Seller ID: " + sellerId + " - SERVICE");
+        return Optional.ofNullable(sellerMapper.sellerToSellerDto(sellerRepository.findById(sellerId).orElse(null)));
     }
 
     @Override
@@ -44,11 +42,11 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public Optional<SellerDTO> updateSeller(UUID uuid, SellerDTO sellerDTO) {
+    public Optional<SellerDTO> updateSeller(Long sellerId, SellerDTO sellerDTO) {
         AtomicReference<Optional<SellerDTO>> sellerReference = new AtomicReference<>();
 
         sellerRepository
-                .findById(uuid)
+                .findById(sellerId)
                 .ifPresentOrElse(
                         sellerFound -> {
                             sellerFound.setUser(sellerDTO.getUser());
@@ -65,9 +63,9 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public Boolean deleteSellerById(UUID uuid) {
-        if (sellerRepository.existsById(uuid)) {
-            sellerRepository.deleteById(uuid);
+    public Boolean deleteSellerById(Long sellerId) {
+        if (sellerRepository.existsById(sellerId)) {
+            sellerRepository.deleteById(sellerId);
             return true;
         }
         return false;

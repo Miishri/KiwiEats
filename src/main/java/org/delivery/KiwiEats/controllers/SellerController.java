@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -42,7 +41,7 @@ public class SellerController {
     }
 
     @GetMapping(SELLER_PATH_ID)
-    public @NonNull EntityModel<SellerDTO> getSellerById(@PathVariable UUID sellerId) {
+    public @NonNull EntityModel<SellerDTO> getSellerById(@PathVariable Long sellerId) {
         log.debug("CONTROLLER - Get seller by ID - Seller ID: " + sellerId + " - CONTROLLER");
 
         SellerDTO sellerDTO = sellerService.getSellerById(sellerId).orElseThrow(NotFoundException::new);
@@ -59,7 +58,7 @@ public class SellerController {
     }
 
     @PutMapping(SELLER_PATH_ID)
-    public ResponseEntity<?> updateSellerById(@PathVariable UUID sellerId, @RequestBody SellerDTO sellerDTO) {
+    public ResponseEntity<?> updateSellerById(@PathVariable Long sellerId, @RequestBody SellerDTO sellerDTO) {
 
         Optional<SellerDTO> updatedProduct = sellerService.updateSeller(sellerId, sellerDTO);
 
@@ -72,7 +71,7 @@ public class SellerController {
     }
 
     @DeleteMapping(SELLER_PATH_ID)
-    public ResponseEntity<?> deleteSellerById(@PathVariable UUID sellerId) {
+    public ResponseEntity<?> deleteSellerById(@PathVariable Long sellerId) {
         Boolean isDeleted = sellerService.deleteSellerById(sellerId);
         if (!isDeleted) throw new NotFoundException("Seller could not be deleted");
         return ResponseEntity.noContent().build();
