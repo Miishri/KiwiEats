@@ -23,7 +23,6 @@ public class BootstrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        loadProducts();
         loadSellers();
     }
     private void loadProducts() {
@@ -47,26 +46,38 @@ public class BootstrapData implements CommandLineRunner {
 
     private void loadSellers() {
         if (sellerRepository.count() == 0) {
+
+            User mangoUser = User.builder()
+                    .username("Aam Wala")
+                    .firstName("Mango")
+                    .middleName("")
+                    .lastName("Seller")
+                    .email("mango@lelo.com")
+                    .password("mangowala123")
+                    .build();
+
             Seller mangoSeller = Seller.builder()
-                    .user(User.builder()
-                            .username("Aam Wala")
-                            .firstName("Mango")
-                            .middleName("")
-                            .lastName("Seller")
-                            .email("mango@lelo.com")
-                            .password("mangowala123")
-                            .build())
-                    .productInStock(List.of(
-                            Product.builder()
-                                    .productName("Mango")
-                                    .productImage("https://i.ibb.co/Vt0mMq3/image.png")
-                                    .category(Category.FRUIT)
-                                    .build()
-                    ))
                     .earnings(new BigDecimal(100))
                     .build();
 
-            Seller sweetPotatoSeller = Seller.builder()
+            mangoUser.setSeller(mangoSeller);
+            mangoSeller.setUser(mangoUser);
+
+            List<Product> mangoProducts = List.of(
+                    Product.builder()
+                            .productName("Mango")
+                            .productImage("https://i.ibb.co/Vt0mMq3/image.png")
+                            .category(Category.FRUIT)
+                            .build()
+            );
+
+            mangoProducts.forEach(product -> {
+                product.setSeller(mangoSeller);
+            });
+
+            mangoSeller.setProductInStock(mangoProducts);
+
+            /*Seller sweetPotatoSeller = Seller.builder()
                     .user(User.builder()
                             .username("Shakar Kandi Wala")
                             .firstName("Sweet")
@@ -85,8 +96,9 @@ public class BootstrapData implements CommandLineRunner {
                     .earnings(new BigDecimal(200))
                     .build();
 
+            */
+
             sellerRepository.save(mangoSeller);
-            sellerRepository.save(sweetPotatoSeller);
         }
     }
 }
