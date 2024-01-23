@@ -10,31 +10,24 @@ import org.springframework.boot.test.context.SpringBootTest;
 @AutoConfigureMockMvc
 class SellerControllerTest {
 
-    @BeforeEach
-    void setUp() {
-    }
+  @BeforeEach
+  void setUp() {}
 
-    @AfterEach
-    void tearDown() {
-    }
+  @AfterEach
+  void tearDown() {}
 
-    @Test
-    void registerSeller() {
-    }
+  @Test
+  void registerSeller() {}
 
-    @Test
-    void getSellerById() {
-    }
+  @Test
+  void getSellerById() {}
 
-    @Test
-    void getAllSellers() {
-    }
+  @Test
+  void getAllSellers() {}
 
-    @Test
-    void updateSellerById() {
-    }
+  @Test
+  void updateSellerById() {}
 
-    @Test
-    void deleteSellerById() {
-    }
+  @Test
+  void deleteSellerById() {}
 }

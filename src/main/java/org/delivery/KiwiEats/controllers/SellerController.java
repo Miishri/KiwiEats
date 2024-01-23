@@ -1,79 +1,57 @@
 package org.delivery.KiwiEats.controllers;
 
-
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.delivery.KiwiEats.exceptions.NotFoundException;
 import org.delivery.KiwiEats.models.SellerDTO;
 import org.delivery.KiwiEats.services.SellerService;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 public class SellerController {
-    public static final String SELLER_PATH = "/kiwi/seller";
-    public static final String SELLER_PATH_ID = SELLER_PATH + "/{sellerId}";
+  public static final String SELLER_PATH = "/kiwi/seller";
+  public static final String SELLER_PATH_ID = SELLER_PATH + "/{sellerId}";
 
-    private final SellerService sellerService;
-    private final SellerModelAssembler sellerModelAssembler;
+  private final SellerService sellerService;
 
-    @PostMapping(SELLER_PATH)
-    public ResponseEntity<?> registerSeller(@RequestBody SellerDTO sellerDTO) {
-        SellerDTO createdSellerDTO = sellerService.createSeller(sellerDTO);
+  @PostMapping(SELLER_PATH)
+  public SellerDTO registerSeller(@RequestBody SellerDTO sellerDTO) {
+      return sellerService.createSeller(sellerDTO);
+  }
 
-        EntityModel<SellerDTO> entityModel = sellerModelAssembler.toModel(createdSellerDTO);
+  @GetMapping(SELLER_PATH_ID)
+  public SellerDTO getSellerById(@PathVariable Long sellerId) {
+    log.debug("CONTROLLER - Get seller by ID - Seller ID: " + sellerId + " - CONTROLLER");
 
-        return ResponseEntity
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF)
-                .toUri()).body(entityModel);
-    }
+    return sellerService.getSellerById(sellerId).orElseThrow(NotFoundException::new);
+  }
 
-    @GetMapping(SELLER_PATH_ID)
-    public @NonNull EntityModel<SellerDTO> getSellerById(@PathVariable Long sellerId) {
-        log.debug("CONTROLLER - Get seller by ID - Seller ID: " + sellerId + " - CONTROLLER");
+  @GetMapping(SELLER_PATH)
+  public List<SellerDTO> getAllSellers() {
+    return sellerService.getAllSellers();
+  }
 
-        SellerDTO sellerDTO = sellerService.getSellerById(sellerId).orElseThrow(NotFoundException::new);
+  @PutMapping(SELLER_PATH_ID)
+  public SellerDTO updateSellerById(
+      @PathVariable Long sellerId, @RequestBody SellerDTO sellerDTO) {
 
-        return sellerModelAssembler.toModel(sellerDTO);
-    }
+    Optional<SellerDTO> updatedProduct = sellerService.updateSeller(sellerId, sellerDTO);
 
-    @GetMapping(SELLER_PATH)
-    public CollectionModel<EntityModel<SellerDTO>> getAllSellers() {
+    if (updatedProduct.isEmpty()) throw new NotFoundException("Seller was not found");
 
-        List<EntityModel<SellerDTO>> sellers = sellerService.getAllSellers().stream().map(sellerModelAssembler::toModel).toList();
+    return updatedProduct.get();
+  }
 
-        return CollectionModel.of(sellers, linkTo(methodOn(SellerController.class).getAllSellers()).withSelfRel());
-    }
-
-    @PutMapping(SELLER_PATH_ID)
-    public ResponseEntity<?> updateSellerById(@PathVariable Long sellerId, @RequestBody SellerDTO sellerDTO) {
-
-        Optional<SellerDTO> updatedProduct = sellerService.updateSeller(sellerId, sellerDTO);
-
-        if (updatedProduct.isEmpty()) throw new NotFoundException("Seller was not found");
-
-        EntityModel<SellerDTO> entityModel = sellerModelAssembler.toModel(updatedProduct.get());
-
-        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF)
-                .toUri()).body(entityModel);
-    }
-
-    @DeleteMapping(SELLER_PATH_ID)
-    public ResponseEntity<?> deleteSellerById(@PathVariable Long sellerId) {
-        Boolean isDeleted = sellerService.deleteSellerById(sellerId);
-        if (!isDeleted) throw new NotFoundException("Seller could not be deleted");
-        return ResponseEntity.noContent().build();
-    }
+  @DeleteMapping(SELLER_PATH_ID)
+  public ResponseEntity<?> deleteSellerById(@PathVariable Long sellerId) {
+    Boolean isDeleted = sellerService.deleteSellerById(sellerId);
+    if (!isDeleted) throw new NotFoundException("Seller could not be deleted");
+    return ResponseEntity.noContent().build();
+  }
 }

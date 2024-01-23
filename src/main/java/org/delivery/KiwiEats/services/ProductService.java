@@ -1,9 +1,8 @@
 package org.delivery.KiwiEats.services;
 
-import org.delivery.KiwiEats.models.ProductDTO;
-
 import java.util.List;
 import java.util.Optional;
+import org.delivery.KiwiEats.models.ProductDTO;
 
 public interface ProductService {
   Optional<ProductDTO> getProductById(Long id);

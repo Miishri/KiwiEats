@@ -7,6 +7,7 @@ import org.delivery.KiwiEats.models.ProductDTO;
 import org.delivery.KiwiEats.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -22,7 +23,8 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public Optional<ProductDTO> getProductById(Long id) {
     log.debug("SERVICE - Get product by ID - Product ID: " + id + " - SERVICE");
-    return Optional.ofNullable(productMapper.productToProductDto(productRepository.findById(id).orElse(null)));
+    return Optional.ofNullable(
+        productMapper.productToProductDto(productRepository.findById(id).orElse(null)));
   }
 
   @Override
@@ -35,7 +37,8 @@ public class ProductServiceImpl implements ProductService {
   public ProductDTO createProduct(ProductDTO productDTO) {
     log.debug("SERVICE--Create new product from controller--SERVICE");
 
-    return productMapper.productToProductDto(productRepository.save(productMapper.productDtoToProduct(productDTO)));
+    return productMapper.productToProductDto(
+        productRepository.save(productMapper.productDtoToProduct(productDTO)));
   }
 
   @Override
@@ -51,8 +54,11 @@ public class ProductServiceImpl implements ProductService {
               productFound.setProductName(productDTO.getProductName());
               productFound.setCategory(productDTO.getCategory());
               productFound.setCreationDate(productDTO.getCreationDate());
+              productFound.setPrice(BigDecimal.valueOf(productDTO.getPrice()));
 
-              productReference.set(Optional.of(productMapper.productToProductDto(productRepository.save(productFound))));
+              productReference.set(
+                  Optional.of(
+                      productMapper.productToProductDto(productRepository.save(productFound))));
             },
             () -> {
               productReference.set(Optional.empty());

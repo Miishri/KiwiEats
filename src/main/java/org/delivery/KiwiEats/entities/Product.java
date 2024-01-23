@@ -1,10 +1,12 @@
 package org.delivery.KiwiEats.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
@@ -15,7 +17,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Table
 public class Product {
-
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Id
   private Long id;
@@ -24,16 +25,21 @@ public class Product {
 
   private String productImage;
 
-  @Enumerated(EnumType.STRING)
-  private Category category;
+  private BigDecimal price;
 
-  @CreationTimestamp
-  private Timestamp creationDate;
+  private String category;
 
-  @UpdateTimestamp
-  private Timestamp lastUpdatedDate;
+  @CreationTimestamp private Timestamp creationDate;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @UpdateTimestamp private Timestamp lastUpdatedDate;
+
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "seller_id")
+  @JsonBackReference
   private Seller seller;
+
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "customer_id")
+  @JsonBackReference
+  private Customer customer;
 }

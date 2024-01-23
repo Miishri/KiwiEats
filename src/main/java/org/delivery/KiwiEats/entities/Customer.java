@@ -1,28 +1,30 @@
 package org.delivery.KiwiEats.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.delivery.KiwiEats.entities.roles.User;
 
 import java.util.List;
 
-@Entity
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Customer")
+@Table
+@Entity
 public class Customer {
 
-  @GeneratedValue(strategy = GenerationType.UUID)
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "customer_id")
   private Long customerId;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "id", referencedColumnName = "id")
+  @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
   private User user;
 
-  @OneToMany(mappedBy="customer")
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  @JsonManagedReference
   private List<Product> cart;
 }

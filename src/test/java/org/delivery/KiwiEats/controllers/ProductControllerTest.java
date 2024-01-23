@@ -1,7 +1,6 @@
 package org.delivery.KiwiEats.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.delivery.KiwiEats.entities.Category;
 import org.delivery.KiwiEats.entities.Product;
 import org.delivery.KiwiEats.models.ProductDTO;
 import org.delivery.KiwiEats.repositories.ProductRepository;
@@ -33,7 +32,8 @@ class ProductControllerTest {
 
   @Autowired ObjectMapper objectMapper;
 
-  private final Long testIdNonExistent = 100L;;
+  private final Long testIdNonExistent = 100L;
+  ;
 
   @Test
   void getProductById() throws Exception {
@@ -50,8 +50,9 @@ class ProductControllerTest {
 
   @Test
   void getProductByIdNotFound() throws Exception {
-    mockMvc.perform(get(ProductController.PRODUCT_PATH_ID, testIdNonExistent))
-            .andExpect(status().isNotFound());
+    mockMvc
+        .perform(get(ProductController.PRODUCT_PATH_ID, testIdNonExistent))
+        .andExpect(status().isNotFound());
   }
 
   @Test
@@ -84,18 +85,19 @@ class ProductControllerTest {
 
   @Test
   void createProduct() throws Exception {
-    Product productDTO = Product.builder()
+    Product productDTO =
+        Product.builder()
             .productName("Cherry")
             .productImage("https://i.ibb.co/p1y9sdk/image.png")
-            .category(Category.FRUIT)
+            .category("FRUIT")
             .build();
 
     mockMvc
         .perform(
             post(ProductController.PRODUCT_PATH)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(productDTO))
-                    .contentType(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDTO))
+                .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
   }
 
@@ -106,8 +108,8 @@ class ProductControllerTest {
     mockMvc
         .perform(
             delete(ProductController.PRODUCT_PATH_ID, productId)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNoContent());
   }
 
