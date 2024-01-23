@@ -1,8 +1,8 @@
 package org.delivery.KiwiEats.bootstrap;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.delivery.KiwiEats.entities.*;
+import org.delivery.KiwiEats.entities.Product;
+import org.delivery.KiwiEats.entities.Seller;
 import org.delivery.KiwiEats.entities.roles.Privilege;
 import org.delivery.KiwiEats.entities.roles.Role;
 import org.delivery.KiwiEats.entities.roles.User;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,24 +24,60 @@ public class BootstrapData implements CommandLineRunner {
   private final SellerRepository sellerRepository;
   private final RoleRepository roleRepository;
   private final PrivilegeRepository privilegeRepository;
+  private boolean loaded = false;
 
   @Override
   public void run(String... args) {
+    createPrivileges();
     loadSellers();
+  }
+
+  private void createPrivileges() {
+    if (!loaded) {
+      Privilege buyProductPrivilege = privilegeRepository.save(new Privilege("BUY_PRODUCT"));
+      Privilege removeProductPrivilege = privilegeRepository.save(new Privilege("REMOVE_PRODUCT"));
+
+      Privilege editProductPrivilege = privilegeRepository.save(new Privilege("EDIT_PRODUCT"));
+
+      Privilege createProductPrivilege = privilegeRepository.save( new Privilege("CREATE_PRODUCT"));
+
+      Privilege deleteProductPrivilege = privilegeRepository.save(new Privilege("DELETE_PRODUCT"));
+      Privilege deleteSellerPrivilege = privilegeRepository.save(new Privilege("DELETE_SELLER"));
+      Privilege deleteCustomerPrivilege = privilegeRepository.save(new Privilege("DELETE_CUSTOMER"));
+
+      List<Privilege> adminPrivileges = Arrays.asList(editProductPrivilege, createProductPrivilege,
+              deleteCustomerPrivilege, deleteSellerPrivilege, deleteProductPrivilege);
+
+      List<Privilege> customerPrivileges = Arrays.asList(buyProductPrivilege, removeProductPrivilege);
+
+      List<Privilege> sellerPrivileges = Arrays.asList(createProductPrivilege, editProductPrivilege, deleteProductPrivilege);
+
+      Role adminRole = Role.builder()
+              .name("ADMIN")
+              .privileges(adminPrivileges)
+              .build();
+
+      Role customerRole = Role.builder()
+              .name("CUSTOMER")
+              .privileges(customerPrivileges)
+              .build();
+
+      Role sellerRole = Role.builder()
+              .name("SELLER")
+              .privileges(sellerPrivileges)
+              .build();
+
+      roleRepository.save(adminRole);
+      roleRepository.save(customerRole);
+      roleRepository.save(sellerRole);
+
+      this.loaded = true;
+    }
   }
 
   private void loadSellers() {
     if (sellerRepository.count() == 0) {
-
-      Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
-      Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
-
-      List<Privilege> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege);
-
-      createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
-      createRoleIfNotFound("ROLE_SELLER", Collections.singletonList(readPrivilege));
-
-      Role adminRole = roleRepository.findByName("ROLE_SELLER");
+      Role adminRole = roleRepository.findByName("SELLER");
 
       User mangoUser =
           User.builder()
@@ -77,28 +112,5 @@ public class BootstrapData implements CommandLineRunner {
 
       sellerRepository.save(mangoSeller);
     }
-  }
-
-  @Transactional
-  Privilege createPrivilegeIfNotFound(String name) {
-
-    Privilege privilege = privilegeRepository.findByName(name);
-    if (privilege == null) {
-      privilege = Privilege.builder().name(name).build();
-      privilegeRepository.save(privilege);
-    }
-    return privilege;
-  }
-
-  @Transactional
-  Role createRoleIfNotFound(String name, Collection<Privilege> privileges) {
-
-    Role role = roleRepository.findByName(name);
-    if (role == null) {
-      role = Role.builder().name(name).privileges(privileges).build();
-      roleRepository.save(role);
-    }
-
-    return role;
   }
 }
