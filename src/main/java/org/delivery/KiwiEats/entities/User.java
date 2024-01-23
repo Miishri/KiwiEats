@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Builder
@@ -59,5 +60,17 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seller_id", nullable = false)
     private Seller seller;
+
+    private boolean enabled;
+    private boolean tokenExpired;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 }
 

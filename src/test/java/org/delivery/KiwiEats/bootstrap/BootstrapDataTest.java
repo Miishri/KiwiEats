@@ -1,6 +1,7 @@
 package org.delivery.KiwiEats.bootstrap;
 
-import org.delivery.KiwiEats.repositories.ProductRepository;
+import org.delivery.KiwiEats.repositories.PrivilegeRepository;
+import org.delivery.KiwiEats.repositories.RoleRepository;
 import org.delivery.KiwiEats.repositories.SellerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,21 +14,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BootstrapDataTest {
 
     @Autowired
-    ProductRepository productRepository;
-
-    @Autowired
     SellerRepository sellerRepository;
+    @Autowired
+    PrivilegeRepository privilegeRepository;
+    @Autowired
+    RoleRepository roleRepository;
 
     BootstrapData bootstrapData;
 
     @BeforeEach
     public void setup() {
-        bootstrapData = new BootstrapData(productRepository, sellerRepository);
+        bootstrapData = new BootstrapData(sellerRepository, roleRepository, privilegeRepository);
     }
 
     @Test
     void testRunMethod() throws Exception {
         bootstrapData.run();
-        assertThat(productRepository.count()).isEqualTo(2);
+        assertThat(sellerRepository.count()).isEqualTo(1);
     }
 }
