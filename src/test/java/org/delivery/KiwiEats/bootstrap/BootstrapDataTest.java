@@ -13,23 +13,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class BootstrapDataTest {
 
-    @Autowired
-    SellerRepository sellerRepository;
-    @Autowired
-    PrivilegeRepository privilegeRepository;
-    @Autowired
-    RoleRepository roleRepository;
+  @Autowired SellerRepository sellerRepository;
+  @Autowired PrivilegeRepository privilegeRepository;
+  @Autowired RoleRepository roleRepository;
 
-    BootstrapData bootstrapData;
+  BootstrapData bootstrapData;
 
-    @BeforeEach
-    public void setup() {
-        bootstrapData = new BootstrapData(sellerRepository, roleRepository, privilegeRepository);
-    }
+  @BeforeEach
+  public void setup() {
+    bootstrapData = new BootstrapData(sellerRepository, roleRepository, privilegeRepository);
+  }
 
-    @Test
-    void testRunMethod() throws Exception {
-        bootstrapData.run();
-        assertThat(sellerRepository.count()).isEqualTo(1);
-    }
+  @Test
+  void testRunMethod() throws Exception {
+    bootstrapData.run();
+    assertThat(sellerRepository.count()).isEqualTo(1);
+  }
 }

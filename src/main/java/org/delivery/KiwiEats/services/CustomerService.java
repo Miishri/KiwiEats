@@ -6,15 +6,11 @@ import java.util.Optional;
 
 public interface CustomerService {
 
-    Optional<CustomerDTO> getCustomerByUUID(Long uuid);
+  Optional<CustomerDTO> getCustomerById(Long customerId);
 
-    Optional<CustomerDTO> getCustomerByEmail(String emailId);
+  CustomerDTO addCustomer(CustomerDTO customerDTO);
 
-    Optional<CustomerDTO> getCustomerByUsername(String nickName);
+  Optional<CustomerDTO> modifyCustomer(Long customerId, CustomerDTO customerDTO);
 
-    CustomerDTO addCustomer(CustomerDTO customerDTO);
-
-    Optional<CustomerDTO> modifyCustomer(Long uuid, CustomerDTO customerDTO);
-
-    Boolean deleteCustomer(Long uuid);
+  Boolean deleteCustomer(Long customerId);
 }
