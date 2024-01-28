@@ -2,9 +2,12 @@ package org.delivery.KiwiEats.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.delivery.KiwiEats.entities.roles.User;
 import org.delivery.KiwiEats.mapper.CustomerMapper;
 import org.delivery.KiwiEats.models.CustomerDTO;
 import org.delivery.KiwiEats.repositories.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,6 +20,7 @@ public class CustomerServiceImpl implements CustomerService {
 
   private final CustomerRepository customerRepository;
   private final CustomerMapper customerMapper;
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public Optional<CustomerDTO> getCustomerById(Long customerId) {
@@ -28,6 +32,10 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public CustomerDTO addCustomer(CustomerDTO customerDTO) {
     log.debug("SERVICE--Add new Customer from controller--SERVICE");
+
+    User user = customerDTO.getUser();
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+
     return customerMapper.customerToCustomerDTO(
         customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO)));
   }
@@ -42,7 +50,10 @@ public class CustomerServiceImpl implements CustomerService {
         .findById(customerId)
         .ifPresentOrElse(
             customerFound -> {
-              customerFound.setUser(customerDTO.getUser());
+              User user = customerDTO.getUser();
+              user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+              customerFound.setUser(user);
               customerFound.setCart(customerDTO.getCart());
 
               customerReference.set(
