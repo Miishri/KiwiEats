@@ -2,10 +2,9 @@ package org.delivery.KiwiEats.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.*;
 import org.delivery.KiwiEats.entities.roles.User;
-
-import java.util.List;
 
 @Builder
 @Getter

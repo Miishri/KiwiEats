@@ -1,8 +1,7 @@
 package org.delivery.KiwiEats.services;
 
-import org.delivery.KiwiEats.models.CustomerDTO;
-
 import java.util.Optional;
+import org.delivery.KiwiEats.models.CustomerDTO;
 
 public interface CustomerService {
 

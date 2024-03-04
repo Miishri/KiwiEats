@@ -1,14 +1,14 @@
 package org.delivery.KiwiEats.services;
 
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.delivery.KiwiEats.entities.roles.User;
 import org.delivery.KiwiEats.mapper.CustomerMapper;
 import org.delivery.KiwiEats.models.CustomerDTO;
 import org.delivery.KiwiEats.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -28,13 +28,15 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public CustomerDTO addCustomer(CustomerDTO customerDTO) {
     log.debug("SERVICE--Add new Customer from controller--SERVICE");
+
     return customerMapper.customerToCustomerDTO(
         customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO)));
   }
 
   @Override
   public Optional<CustomerDTO> modifyCustomer(Long customerId, CustomerDTO customerDTO) {
-    log.debug("SERVICE - Update customer by existing customer and ID: " + customerId + " - SERVICE");
+    log.debug(
+        "SERVICE - Update customer by existing customer and ID: " + customerId + " - SERVICE");
 
     AtomicReference<Optional<CustomerDTO>> customerReference = new AtomicReference<>();
 
@@ -42,7 +44,9 @@ public class CustomerServiceImpl implements CustomerService {
         .findById(customerId)
         .ifPresentOrElse(
             customerFound -> {
-              customerFound.setUser(customerDTO.getUser());
+              User user = customerDTO.getUser();
+
+              customerFound.setUser(user);
               customerFound.setCart(customerDTO.getCart());
 
               customerReference.set(

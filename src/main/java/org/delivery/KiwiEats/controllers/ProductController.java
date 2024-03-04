@@ -1,15 +1,14 @@
 package org.delivery.KiwiEats.controllers;
 
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.delivery.KiwiEats.exceptions.NotFoundException;
+import org.delivery.KiwiEats.exception.NotFoundException;
 import org.delivery.KiwiEats.models.ProductDTO;
 import org.delivery.KiwiEats.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,13 +21,13 @@ public class ProductController {
 
   @PostMapping(PRODUCT_PATH)
   public ProductDTO createProduct(@RequestBody ProductDTO productDTO) {
-      return productService.createProduct(productDTO);
+    return productService.createProduct(productDTO);
   }
 
   @GetMapping(PRODUCT_PATH_ID)
   public ProductDTO getProductById(@PathVariable("productId") Long productId) {
     log.debug("CONTROLLER - Get product by ID - Product ID: " + productId + " - CONTROLLER");
-      return productService.getProductById(productId).orElseThrow(NotFoundException::new);
+    return productService.getProductById(productId).orElseThrow(NotFoundException::new);
   }
 
   @GetMapping(PRODUCT_PATH)

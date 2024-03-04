@@ -24,9 +24,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
   @Id
@@ -56,7 +54,7 @@ public class User {
   private String email;
 
   @NotBlank(message = "Password cannot be empty")
-  @Size(min = 8, max = 20, message = "Password does not have correct length")
+  @Size(min = 8, message = "Password does not have correct length")
   @NotNull
   private String password;
 
@@ -72,10 +70,9 @@ public class User {
   @JoinColumn(name = "customer_id")
   private Customer customer;
 
-  private boolean enabled;
   private boolean tokenExpired;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "users_roles",
       joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

@@ -14,9 +14,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Entity
 @Table
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Privilege {
 
   @Id
@@ -25,7 +23,7 @@ public class Privilege {
 
   private String name;
 
-  @ManyToMany(mappedBy = "privileges")
+  @ManyToMany(mappedBy = "privileges", fetch = FetchType.EAGER)
   private Collection<Role> roles;
 
   public Privilege(String name) {
