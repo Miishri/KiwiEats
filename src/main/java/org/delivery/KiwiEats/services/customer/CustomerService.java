@@ -1,4 +1,4 @@
-package org.delivery.KiwiEats.services;
+package org.delivery.KiwiEats.services.customer;
 
 import java.util.Optional;
 import org.delivery.KiwiEats.models.CustomerDTO;

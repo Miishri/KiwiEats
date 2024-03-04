@@ -1,7 +1,6 @@
-package org.delivery.KiwiEats.services;
+package org.delivery.KiwiEats.config.user;
 
 import org.delivery.KiwiEats.entities.roles.User;
-import org.delivery.KiwiEats.models.CustomUserDetails;
 import org.delivery.KiwiEats.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

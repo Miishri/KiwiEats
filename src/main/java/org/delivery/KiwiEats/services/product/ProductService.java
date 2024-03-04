@@ -1,4 +1,4 @@
-package org.delivery.KiwiEats.services;
+package org.delivery.KiwiEats.services.product;
 
 import java.util.List;
 import java.util.Optional;

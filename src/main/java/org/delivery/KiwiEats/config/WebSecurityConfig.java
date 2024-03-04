@@ -1,6 +1,6 @@
 package org.delivery.KiwiEats.config;
 
-import org.delivery.KiwiEats.services.CustomUserDetailsService;
+import org.delivery.KiwiEats.config.user.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;

@@ -1,4 +1,4 @@
-package org.delivery.KiwiEats.models;
+package org.delivery.KiwiEats.config.user;
 
 import org.delivery.KiwiEats.entities.roles.User;
 import org.springframework.security.core.GrantedAuthority;

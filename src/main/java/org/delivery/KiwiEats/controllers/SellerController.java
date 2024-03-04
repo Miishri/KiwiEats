@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.delivery.KiwiEats.exception.NotFoundException;
 import org.delivery.KiwiEats.models.SellerDTO;
-import org.delivery.KiwiEats.services.SellerService;
+import org.delivery.KiwiEats.services.seller.SellerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

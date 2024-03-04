@@ -1,4 +1,4 @@
-package org.delivery.KiwiEats.services;
+package org.delivery.KiwiEats.services.product;
 
 import java.math.BigDecimal;
 import java.util.List;
