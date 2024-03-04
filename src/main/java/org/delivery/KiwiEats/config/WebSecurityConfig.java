@@ -28,7 +28,7 @@ public class WebSecurityConfig {
     http.authorizeHttpRequests(
             (requests) ->
                 requests
-                    .requestMatchers("/login")
+                    .requestMatchers("/login", "/register", "/logout")
                     .permitAll()
                     .requestMatchers("/kiwi/seller/**", "kiwi/seller")
                     .hasAnyRole("SELLER")
