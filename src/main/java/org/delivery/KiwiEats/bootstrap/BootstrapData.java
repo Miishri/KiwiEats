@@ -1,9 +1,5 @@
 package org.delivery.KiwiEats.bootstrap;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.delivery.KiwiEats.entities.Product;
 import org.delivery.KiwiEats.entities.Seller;
@@ -14,7 +10,13 @@ import org.delivery.KiwiEats.repositories.PrivilegeRepository;
 import org.delivery.KiwiEats.repositories.RoleRepository;
 import org.delivery.KiwiEats.repositories.SellerRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class BootstrapData implements CommandLineRunner {
   private final SellerRepository sellerRepository;
   private final RoleRepository roleRepository;
   private final PrivilegeRepository privilegeRepository;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
   private boolean loaded = false;
 
   @Override
@@ -84,8 +87,7 @@ public class BootstrapData implements CommandLineRunner {
               .middleName("")
               .lastName("Seller")
               .email("mango@lelo.com")
-              .password("mangowala123")
-              .enabled(true)
+              .password(bCryptPasswordEncoder.encode("mangowala123"))
               .tokenExpired(false)
               .roles(Collections.singleton(adminRole))
               .build();

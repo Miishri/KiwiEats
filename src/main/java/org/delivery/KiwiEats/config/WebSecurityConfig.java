@@ -1,24 +1,25 @@
 package org.delivery.KiwiEats.config;
 
+import org.delivery.KiwiEats.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+  CustomUserDetailsService userDetailsService;
+  public WebSecurityConfig(CustomUserDetailsService userDetailsService) {
+    this.userDetailsService = userDetailsService;
+  }
+
   @Bean
-  public PasswordEncoder encoder() {
+  public BCryptPasswordEncoder encoder() {
     return new BCryptPasswordEncoder();
   }
 
@@ -37,35 +38,10 @@ public class WebSecurityConfig {
                     .hasAnyRole("ADMIN")
                     .anyRequest()
                     .denyAll())
-        .formLogin(Customizer.withDefaults())
-        .rememberMe(Customizer.withDefaults());
+            .formLogin(Customizer.withDefaults())
+            .rememberMe(Customizer.withDefaults())
+            .userDetailsService(userDetailsService);
 
     return http.build();
-  }
-
-  @Bean
-  public UserDetailsService userDetailsService() {
-    UserDetails user =
-        User.withDefaultPasswordEncoder()
-            .username("user")
-            .password("password")
-            .roles("SELLER")
-            .build();
-
-    UserDetails customer =
-        User.withDefaultPasswordEncoder()
-            .username("customer")
-            .password("password")
-            .roles("CUSTOMER")
-            .build();
-
-    UserDetails admin =
-        User.withDefaultPasswordEncoder()
-            .username("admin")
-            .password("password")
-            .roles("ADMIN")
-            .build();
-
-    return new InMemoryUserDetailsManager(user, customer, admin);
   }
 }

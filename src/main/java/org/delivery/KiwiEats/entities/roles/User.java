@@ -7,14 +7,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.sql.Timestamp;
-import java.util.Collection;
 import lombok.*;
 import org.delivery.KiwiEats.entities.Customer;
 import org.delivery.KiwiEats.entities.Seller;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
+
+import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Builder
@@ -53,7 +54,7 @@ public class User {
   private String email;
 
   @NotBlank(message = "Password cannot be empty")
-  @Size(min = 8, max = 20, message = "Password does not have correct length")
+  @Size(min = 8, message = "Password does not have correct length")
   @NotNull
   private String password;
 
@@ -69,10 +70,9 @@ public class User {
   @JoinColumn(name = "customer_id")
   private Customer customer;
 
-  private boolean enabled;
   private boolean tokenExpired;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "users_roles",
       joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
