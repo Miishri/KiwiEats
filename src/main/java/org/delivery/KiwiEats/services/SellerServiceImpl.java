@@ -1,15 +1,14 @@
 package org.delivery.KiwiEats.services;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.delivery.KiwiEats.mapper.SellerMapper;
 import org.delivery.KiwiEats.models.SellerDTO;
 import org.delivery.KiwiEats.repositories.SellerRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -35,7 +34,7 @@ public class SellerServiceImpl implements SellerService {
   @Override
   public SellerDTO createSeller(SellerDTO sellerDTO) {
     return sellerMapper.sellerToSellerDto(
-            sellerRepository.save(sellerMapper.sellerDtoToSeller(sellerDTO)));
+        sellerRepository.save(sellerMapper.sellerDtoToSeller(sellerDTO)));
   }
 
   @Override

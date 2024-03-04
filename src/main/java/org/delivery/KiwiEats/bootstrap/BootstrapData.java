@@ -1,5 +1,9 @@
 package org.delivery.KiwiEats.bootstrap;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.delivery.KiwiEats.entities.Product;
 import org.delivery.KiwiEats.entities.Seller;
@@ -11,11 +15,6 @@ import org.delivery.KiwiEats.repositories.RoleRepository;
 import org.delivery.KiwiEats.repositories.SellerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -39,33 +38,32 @@ public class BootstrapData implements CommandLineRunner {
 
       Privilege editProductPrivilege = privilegeRepository.save(new Privilege("EDIT_PRODUCT"));
 
-      Privilege createProductPrivilege = privilegeRepository.save( new Privilege("CREATE_PRODUCT"));
+      Privilege createProductPrivilege = privilegeRepository.save(new Privilege("CREATE_PRODUCT"));
 
       Privilege deleteProductPrivilege = privilegeRepository.save(new Privilege("DELETE_PRODUCT"));
       Privilege deleteSellerPrivilege = privilegeRepository.save(new Privilege("DELETE_SELLER"));
-      Privilege deleteCustomerPrivilege = privilegeRepository.save(new Privilege("DELETE_CUSTOMER"));
+      Privilege deleteCustomerPrivilege =
+          privilegeRepository.save(new Privilege("DELETE_CUSTOMER"));
 
-      List<Privilege> adminPrivileges = Arrays.asList(editProductPrivilege, createProductPrivilege,
-              deleteCustomerPrivilege, deleteSellerPrivilege, deleteProductPrivilege);
+      List<Privilege> adminPrivileges =
+          Arrays.asList(
+              editProductPrivilege,
+              createProductPrivilege,
+              deleteCustomerPrivilege,
+              deleteSellerPrivilege,
+              deleteProductPrivilege);
 
-      List<Privilege> customerPrivileges = Arrays.asList(buyProductPrivilege, removeProductPrivilege);
+      List<Privilege> customerPrivileges =
+          Arrays.asList(buyProductPrivilege, removeProductPrivilege);
 
-      List<Privilege> sellerPrivileges = Arrays.asList(createProductPrivilege, editProductPrivilege, deleteProductPrivilege);
+      List<Privilege> sellerPrivileges =
+          Arrays.asList(createProductPrivilege, editProductPrivilege, deleteProductPrivilege);
 
-      Role adminRole = Role.builder()
-              .name("ADMIN")
-              .privileges(adminPrivileges)
-              .build();
+      Role adminRole = Role.builder().name("ADMIN").privileges(adminPrivileges).build();
 
-      Role customerRole = Role.builder()
-              .name("CUSTOMER")
-              .privileges(customerPrivileges)
-              .build();
+      Role customerRole = Role.builder().name("CUSTOMER").privileges(customerPrivileges).build();
 
-      Role sellerRole = Role.builder()
-              .name("SELLER")
-              .privileges(sellerPrivileges)
-              .build();
+      Role sellerRole = Role.builder().name("SELLER").privileges(sellerPrivileges).build();
 
       roleRepository.save(adminRole);
       roleRepository.save(customerRole);

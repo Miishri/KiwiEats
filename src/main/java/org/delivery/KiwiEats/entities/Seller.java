@@ -3,11 +3,10 @@ package org.delivery.KiwiEats.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
-import org.delivery.KiwiEats.entities.roles.User;
-
 import java.math.BigDecimal;
 import java.util.List;
+import lombok.*;
+import org.delivery.KiwiEats.entities.roles.User;
 
 @Getter
 @Setter

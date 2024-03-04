@@ -3,9 +3,8 @@ package org.delivery.KiwiEats.entities.roles;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.Collection;
+import lombok.*;
 
 @Getter
 @Setter
@@ -14,9 +13,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Entity
 @Table
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Privilege {
 
   @Id

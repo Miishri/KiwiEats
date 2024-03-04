@@ -1,5 +1,7 @@
 package org.delivery.KiwiEats.controllers;
 
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.delivery.KiwiEats.exception.NotFoundException;
@@ -7,9 +9,6 @@ import org.delivery.KiwiEats.models.SellerDTO;
 import org.delivery.KiwiEats.services.SellerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class SellerController {
 
   @PostMapping(SELLER_PATH)
   public SellerDTO registerSeller(@RequestBody SellerDTO sellerDTO) {
-      return sellerService.createSeller(sellerDTO);
+    return sellerService.createSeller(sellerDTO);
   }
 
   @GetMapping(SELLER_PATH_ID)
@@ -38,8 +37,7 @@ public class SellerController {
   }
 
   @PutMapping(SELLER_PATH_ID)
-  public SellerDTO updateSellerById(
-      @PathVariable Long sellerId, @RequestBody SellerDTO sellerDTO) {
+  public SellerDTO updateSellerById(@PathVariable Long sellerId, @RequestBody SellerDTO sellerDTO) {
 
     Optional<SellerDTO> updatedProduct = sellerService.updateSeller(sellerId, sellerDTO);
 

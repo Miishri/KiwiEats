@@ -1,17 +1,14 @@
 package org.delivery.KiwiEats.services;
 
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.delivery.KiwiEats.entities.roles.User;
 import org.delivery.KiwiEats.mapper.CustomerMapper;
 import org.delivery.KiwiEats.models.CustomerDTO;
 import org.delivery.KiwiEats.repositories.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -20,7 +17,6 @@ public class CustomerServiceImpl implements CustomerService {
 
   private final CustomerRepository customerRepository;
   private final CustomerMapper customerMapper;
-  private final PasswordEncoder passwordEncoder;
 
   @Override
   public Optional<CustomerDTO> getCustomerById(Long customerId) {
@@ -33,16 +29,14 @@ public class CustomerServiceImpl implements CustomerService {
   public CustomerDTO addCustomer(CustomerDTO customerDTO) {
     log.debug("SERVICE--Add new Customer from controller--SERVICE");
 
-    User user = customerDTO.getUser();
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-
     return customerMapper.customerToCustomerDTO(
         customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO)));
   }
 
   @Override
   public Optional<CustomerDTO> modifyCustomer(Long customerId, CustomerDTO customerDTO) {
-    log.debug("SERVICE - Update customer by existing customer and ID: " + customerId + " - SERVICE");
+    log.debug(
+        "SERVICE - Update customer by existing customer and ID: " + customerId + " - SERVICE");
 
     AtomicReference<Optional<CustomerDTO>> customerReference = new AtomicReference<>();
 
@@ -51,7 +45,6 @@ public class CustomerServiceImpl implements CustomerService {
         .ifPresentOrElse(
             customerFound -> {
               User user = customerDTO.getUser();
-              user.setPassword(passwordEncoder.encode(user.getPassword()));
 
               customerFound.setUser(user);
               customerFound.setCart(customerDTO.getCart());

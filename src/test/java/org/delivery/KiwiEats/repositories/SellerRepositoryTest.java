@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.delivery.KiwiEats.entities.Product;
 import org.delivery.KiwiEats.entities.Seller;
 import org.delivery.KiwiEats.entities.roles.User;
