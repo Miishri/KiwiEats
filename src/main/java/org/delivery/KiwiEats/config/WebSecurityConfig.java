@@ -70,9 +70,9 @@ public class WebSecurityConfig {
             (requests) ->
                 requests
                     .requestMatchers("/login", "/register", "/logout", "/generate-token").permitAll()
-                    .requestMatchers("/kiwi/seller/**", "kiwi/seller").hasAuthority("SELLER")
-                    .requestMatchers("/kiwi/customer/**", "kiwi/customer").hasAuthority("CUSTOMER")
-                    .requestMatchers("/kiwi/**").hasAuthority("ADMIN")
+                    .requestMatchers("/kiwi/seller/**", "kiwi/seller").hasRole("SELLER")
+                    .requestMatchers("/kiwi/customer/**", "kiwi/customer").hasRole("CUSTOMER")
+                    .requestMatchers("/kiwi/**").hasRole("ADMIN")
                     .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults())
             .oauth2ResourceServer(oauth2 -> {
