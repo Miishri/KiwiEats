@@ -38,11 +38,9 @@ public class AuthControllerTest {
 
         String jwtToken = mvcResult.getResponse().getContentAsString();
 
-        MvcResult products = this.mockMvc.perform(get("/kiwi/product")
+        MvcResult products = this.mockMvc.perform(get("/kiwi/seller/1")
                         .header("Authorization", "Bearer " + jwtToken))
                 .andReturn();
-
-        System.out.println(products.getResponse().getContentAsString());
 
         assertThat(products).isNotNull();
     }

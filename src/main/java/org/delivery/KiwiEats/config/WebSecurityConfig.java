@@ -30,6 +30,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasScope;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -70,9 +72,9 @@ public class WebSecurityConfig {
             (requests) ->
                 requests
                     .requestMatchers("/login", "/register", "/logout", "/generate-token").permitAll()
-                    .requestMatchers("/kiwi/seller/**", "kiwi/seller").hasRole("SELLER")
-                    .requestMatchers("/kiwi/customer/**", "kiwi/customer").hasRole("CUSTOMER")
-                    .requestMatchers("/kiwi/**").hasRole("ADMIN")
+                    .requestMatchers("/kiwi/seller/**", "kiwi/product/**").access(hasScope("SELLER"))
+                    .requestMatchers("/kiwi/customer/**").access(hasScope("CUSTOMER"))
+                    .requestMatchers("/kiwi/**").access(hasScope("ADMIN"))
                     .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults())
             .oauth2ResourceServer(oauth2 -> {
