@@ -1,5 +1,6 @@
 package org.delivery.KiwiEats.controllers;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.delivery.KiwiEats.exception.NotFoundException;
@@ -7,8 +8,6 @@ import org.delivery.KiwiEats.models.CustomerDTO;
 import org.delivery.KiwiEats.services.customer.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
