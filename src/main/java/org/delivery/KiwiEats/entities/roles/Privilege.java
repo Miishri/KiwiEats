@@ -3,9 +3,8 @@ package org.delivery.KiwiEats.entities.roles;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.Collection;
+import lombok.*;
 
 @Getter
 @Setter
@@ -17,16 +16,16 @@ import java.util.Collection;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Privilege {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    private String name;
+  private String name;
 
-    @ManyToMany(mappedBy = "privileges", fetch = FetchType.EAGER)
-    private Collection<Role> roles;
+  @ManyToMany(mappedBy = "privileges", fetch = FetchType.EAGER)
+  private Collection<Role> roles;
 
-    public Privilege(String name) {
-        this.name = name;
-    }
+  public Privilege(String name) {
+    this.name = name;
+  }
 }

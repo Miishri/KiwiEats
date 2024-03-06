@@ -3,9 +3,8 @@ package org.delivery.KiwiEats.entities.roles;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.Collection;
+import lombok.*;
 
 @Getter
 @Setter
@@ -28,8 +27,8 @@ public class Role {
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
-          name = "roles_privileges",
-          joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
+      name = "roles_privileges",
+      joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
   private Collection<Privilege> privileges;
 }

@@ -7,15 +7,14 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.sql.Timestamp;
+import java.util.Collection;
 import lombok.*;
 import org.delivery.KiwiEats.entities.Customer;
 import org.delivery.KiwiEats.entities.Seller;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
-
-import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
 @Builder
