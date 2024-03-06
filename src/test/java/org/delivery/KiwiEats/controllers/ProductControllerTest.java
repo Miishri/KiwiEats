@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@WithMockUser(username = "admin", roles = {"SELLER", "ADMIN", "CUSTOMER"})
 class ProductControllerTest {
 
   @Autowired MockMvc mockMvc;
@@ -33,7 +35,6 @@ class ProductControllerTest {
   @Autowired ObjectMapper objectMapper;
 
   private final Long testIdNonExistent = 100L;
-  ;
 
   @Test
   void getProductById() throws Exception {
@@ -58,7 +59,8 @@ class ProductControllerTest {
   @Test
   void getAllProducts() throws Exception {
     mockMvc
-        .perform(get(ProductController.PRODUCT_PATH).accept(MediaType.APPLICATION_JSON))
+        .perform(get(ProductController.PRODUCT_PATH)
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$._embedded.productDTOList.length()", is(2)));

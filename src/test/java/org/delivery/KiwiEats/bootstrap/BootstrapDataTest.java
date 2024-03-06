@@ -1,5 +1,6 @@
 package org.delivery.KiwiEats.bootstrap;
 
+import org.delivery.KiwiEats.repositories.PrivilegeRepository;
 import org.delivery.KiwiEats.repositories.RoleRepository;
 import org.delivery.KiwiEats.repositories.SellerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,12 +17,13 @@ public class BootstrapDataTest {
   @Autowired SellerRepository sellerRepository;
   @Autowired RoleRepository roleRepository;
   @Autowired BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired PrivilegeRepository privilegeRepository;
 
   BootstrapData bootstrapData;
 
   @BeforeEach
   public void setup() {
-    bootstrapData = new BootstrapData(sellerRepository, roleRepository, bCryptPasswordEncoder);
+    bootstrapData = new BootstrapData(sellerRepository, roleRepository, privilegeRepository, bCryptPasswordEncoder);
   }
 
   @Test

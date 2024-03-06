@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -25,7 +24,8 @@ public class AuthControllerTest {
 
     @Test
     public void testAuthenticationFail() throws Exception {
-        this.mockMvc.perform(get("/generate-token"))
+        this.mockMvc.perform(post("/generate-token")
+                .with(httpBasic("x", "123")))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -38,10 +38,8 @@ public class AuthControllerTest {
 
         String jwtToken = mvcResult.getResponse().getContentAsString();
 
-        MvcResult products = this.mockMvc.perform(get("/kiwi/seller/1")
+        this.mockMvc.perform(get("/kiwi/product/1")
                         .header("Authorization", "Bearer " + jwtToken))
                 .andReturn();
-
-        assertThat(products).isNotNull();
     }
 }
