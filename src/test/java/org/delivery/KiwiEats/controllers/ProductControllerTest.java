@@ -33,7 +33,6 @@ class ProductControllerTest {
   @Autowired ObjectMapper objectMapper;
 
   private final Long testIdNonExistent = 100L;
-  ;
 
   @Test
   void getProductById() throws Exception {
