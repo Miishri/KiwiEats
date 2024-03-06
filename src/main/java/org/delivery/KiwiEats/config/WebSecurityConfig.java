@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -23,6 +25,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -72,9 +75,9 @@ public class WebSecurityConfig {
             (requests) ->
                 requests
                     .requestMatchers("/login", "/register", "/logout", "/generate-token").permitAll()
-                    .requestMatchers("/kiwi/seller/**", "kiwi/product/**").access(hasScope("SELLER"))
-                    .requestMatchers("/kiwi/customer/**").access(hasScope("CUSTOMER"))
-                    .requestMatchers("/kiwi/**").access(hasScope("ADMIN"))
+                    .requestMatchers("kiwi/product/*").access(hasScope("SELLER"))
+                    .requestMatchers("/kiwi/customer/*").access(hasScope("CUSTOMER"))
+                    .requestMatchers("/kiwi/*").access(hasScope("ADMIN"))
                     .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults())
             .oauth2ResourceServer(oauth2 -> {
@@ -99,5 +102,15 @@ public class WebSecurityConfig {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
+  }
+
+  @Bean
+  public InMemoryUserDetailsManager userDetailsService() {
+    UserDetails admin = User
+            .withUsername("admin")
+            .password(encoder().encode("pass"))
+            .roles("ADMIN")
+            .build();
+    return new InMemoryUserDetailsManager(admin);
   }
 }

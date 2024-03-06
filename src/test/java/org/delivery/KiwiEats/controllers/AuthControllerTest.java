@@ -25,7 +25,8 @@ public class AuthControllerTest {
 
     @Test
     public void testAuthenticationFail() throws Exception {
-        this.mockMvc.perform(get("/generate-token"))
+        this.mockMvc.perform(post("/generate-token")
+                .with(httpBasic("x", "123")))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -38,10 +39,10 @@ public class AuthControllerTest {
 
         String jwtToken = mvcResult.getResponse().getContentAsString();
 
-        MvcResult products = this.mockMvc.perform(get("/kiwi/seller/1")
+        MvcResult products = this.mockMvc.perform(get("/kiwi/product/1")
                         .header("Authorization", "Bearer " + jwtToken))
                 .andReturn();
 
-        assertThat(products).isNotNull();
+        assertThat(products).isNull();
     }
 }
