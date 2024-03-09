@@ -7,14 +7,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.sql.Timestamp;
-import java.util.Collection;
 import lombok.*;
 import org.delivery.KiwiEats.entities.Customer;
 import org.delivery.KiwiEats.entities.Seller;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
+
+import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Builder
@@ -47,8 +48,8 @@ public class User {
   private String lastName;
 
   @Email(
-      message = "Email is not valid",
-      regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+          message = "Email is not valid",
+          regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
   @NotBlank(message = "Email cannot be empty")
   private String email;
 
@@ -62,7 +63,7 @@ public class User {
   @UpdateTimestamp private Timestamp lastUpdatedDate;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "seller_id", nullable = false)
+  @JoinColumn(name = "seller_id")
   private Seller seller;
 
   @OneToOne(cascade = CascadeType.ALL)
@@ -73,8 +74,9 @@ public class User {
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
-      name = "users_roles",
-      joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+          name = "users_roles",
+          joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+          inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+  @Column(updatable = false)
   private Collection<Role> roles;
 }
