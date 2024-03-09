@@ -9,6 +9,7 @@ import org.delivery.KiwiEats.entities.roles.User;
 import org.delivery.KiwiEats.repositories.PrivilegeRepository;
 import org.delivery.KiwiEats.repositories.RoleRepository;
 import org.delivery.KiwiEats.repositories.SellerRepository;
+import org.delivery.KiwiEats.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ public class BootstrapData implements CommandLineRunner {
   private final RoleRepository roleRepository;
   private final PrivilegeRepository privilegeRepository;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
+  private final UserRepository userRepository;
   private boolean loaded = false;
 
   @Override
@@ -77,8 +79,8 @@ public class BootstrapData implements CommandLineRunner {
   }
 
   private void loadSellers() {
-    if (sellerRepository.count() == 0) {
-      Role adminRole = roleRepository.findByName("SELLER");
+    if (sellerRepository.count() < 2) {
+      Role seller = roleRepository.findByName("SELLER");
 
       User mangoUser =
               User.builder()
@@ -89,7 +91,7 @@ public class BootstrapData implements CommandLineRunner {
                       .email("mango@lelo.com")
                       .password(bCryptPasswordEncoder.encode("mangowala123"))
                       .tokenExpired(false)
-                      .roles(Collections.singleton(adminRole))
+                      .roles(Collections.singleton(seller))
                       .build();
 
       Seller mangoSeller = Seller.builder().earnings(new BigDecimal(100)).build();
@@ -111,6 +113,22 @@ public class BootstrapData implements CommandLineRunner {
       mangoSeller.setProductInStock(mangoProducts);
 
       sellerRepository.save(mangoSeller);
+
+      Role adminRole = roleRepository.findByName("ADMIN");
+
+      User admin =
+              User.builder()
+                      .username("Administrator")
+                      .firstName("Test")
+                      .middleName("")
+                      .lastName("Admin")
+                      .email("admin@test.com")
+                      .password(bCryptPasswordEncoder.encode("admin"))
+                      .tokenExpired(false)
+                      .roles(Collections.singleton(adminRole))
+                      .build();
+
+      userRepository.save(admin);
     }
   }
 }

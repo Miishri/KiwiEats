@@ -25,7 +25,8 @@ public class AuthControllerTest {
 
     @Test
     public void testAuthenticationFail() throws Exception {
-        this.mockMvc.perform(get("/generate-token"))
+        this.mockMvc.perform(post("/generate-token")
+                .with(httpBasic("1", "1")))
                 .andExpect(status().isUnauthorized());
     }
 

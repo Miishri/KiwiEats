@@ -63,7 +63,7 @@ public class User {
   @UpdateTimestamp private Timestamp lastUpdatedDate;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "seller_id", nullable = false)
+  @JoinColumn(name = "seller_id")
   private Seller seller;
 
   @OneToOne(cascade = CascadeType.ALL)
@@ -77,5 +77,6 @@ public class User {
       name = "users_roles",
       joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+  @Column(updatable = false)
   private Collection<Role> roles;
 }
