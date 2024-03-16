@@ -1,5 +1,7 @@
 package org.delivery.KiwiEats.bootstrap;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.delivery.KiwiEats.repositories.PrivilegeRepository;
 import org.delivery.KiwiEats.repositories.RoleRepository;
 import org.delivery.KiwiEats.repositories.SellerRepository;
@@ -10,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @SpringBootTest
 public class BootstrapDataTest {
 
@@ -19,13 +19,19 @@ public class BootstrapDataTest {
   @Autowired RoleRepository roleRepository;
   @Autowired BCryptPasswordEncoder bCryptPasswordEncoder;
   @Autowired PrivilegeRepository privilegeRepository;
-  @Autowired UserRepository userRepository ;
+  @Autowired UserRepository userRepository;
 
   BootstrapData bootstrapData;
 
   @BeforeEach
   public void setup() {
-    bootstrapData = new BootstrapData(sellerRepository, roleRepository,privilegeRepository, bCryptPasswordEncoder, userRepository);
+    bootstrapData =
+        new BootstrapData(
+            sellerRepository,
+            roleRepository,
+            privilegeRepository,
+            bCryptPasswordEncoder,
+            userRepository);
   }
 
   @Test

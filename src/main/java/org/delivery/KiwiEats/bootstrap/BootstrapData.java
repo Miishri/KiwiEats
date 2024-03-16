@@ -48,21 +48,21 @@ public class BootstrapData implements CommandLineRunner {
       Privilege deleteProductPrivilege = privilegeRepository.save(new Privilege("DELETE_PRODUCT"));
       Privilege deleteSellerPrivilege = privilegeRepository.save(new Privilege("DELETE_SELLER"));
       Privilege deleteCustomerPrivilege =
-              privilegeRepository.save(new Privilege("DELETE_CUSTOMER"));
+          privilegeRepository.save(new Privilege("DELETE_CUSTOMER"));
 
       List<Privilege> adminPrivileges =
-              Arrays.asList(
-                      editProductPrivilege,
-                      createProductPrivilege,
-                      deleteCustomerPrivilege,
-                      deleteSellerPrivilege,
-                      deleteProductPrivilege);
+          Arrays.asList(
+              editProductPrivilege,
+              createProductPrivilege,
+              deleteCustomerPrivilege,
+              deleteSellerPrivilege,
+              deleteProductPrivilege);
 
       List<Privilege> customerPrivileges =
-              Arrays.asList(buyProductPrivilege, removeProductPrivilege);
+          Arrays.asList(buyProductPrivilege, removeProductPrivilege);
 
       List<Privilege> sellerPrivileges =
-              Arrays.asList(createProductPrivilege, editProductPrivilege, deleteProductPrivilege);
+          Arrays.asList(createProductPrivilege, editProductPrivilege, deleteProductPrivilege);
 
       Role adminRole = Role.builder().name("ADMIN").privileges(adminPrivileges).build();
 
@@ -79,20 +79,20 @@ public class BootstrapData implements CommandLineRunner {
   }
 
   private void loadSellers() {
-    if (sellerRepository.count() < 2) {
+    if (sellerRepository.count() < 1) {
       Role seller = roleRepository.findByName("SELLER");
 
       User mangoUser =
-              User.builder()
-                      .username("Aam Wala")
-                      .firstName("Mango")
-                      .middleName("")
-                      .lastName("Seller")
-                      .email("mango@lelo.com")
-                      .password(bCryptPasswordEncoder.encode("mangowala123"))
-                      .tokenExpired(false)
-                      .roles(Collections.singleton(seller))
-                      .build();
+          User.builder()
+              .username("Aam Wala")
+              .firstName("Mango")
+              .middleName("")
+              .lastName("Seller")
+              .email("mango@lelo.com")
+              .password(bCryptPasswordEncoder.encode("mangowala123"))
+              .tokenExpired(false)
+              .roles(Collections.singleton(seller))
+              .build();
 
       Seller mangoSeller = Seller.builder().earnings(new BigDecimal(100)).build();
 
@@ -100,13 +100,13 @@ public class BootstrapData implements CommandLineRunner {
       mangoSeller.setUser(mangoUser);
 
       List<Product> mangoProducts =
-              List.of(
-                      Product.builder()
-                              .productName("Mango")
-                              .productImage("https://i.ibb.co/Vt0mMq3/image.png")
-                              .category("FRUIT")
-                              .price(new BigDecimal("100"))
-                              .build());
+          List.of(
+              Product.builder()
+                  .productName("Mango")
+                  .productImage("https://i.ibb.co/Vt0mMq3/image.png")
+                  .category("FRUIT")
+                  .price(new BigDecimal("100"))
+                  .build());
 
       mangoProducts.forEach(product -> product.setSeller(mangoSeller));
 
@@ -117,16 +117,16 @@ public class BootstrapData implements CommandLineRunner {
       Role adminRole = roleRepository.findByName("ADMIN");
 
       User admin =
-              User.builder()
-                      .username("Administrator")
-                      .firstName("Test")
-                      .middleName("")
-                      .lastName("Admin")
-                      .email("admin@test.com")
-                      .password(bCryptPasswordEncoder.encode("admin"))
-                      .tokenExpired(false)
-                      .roles(Collections.singleton(adminRole))
-                      .build();
+          User.builder()
+              .username("Administrator")
+              .firstName("Test")
+              .middleName("")
+              .lastName("Admin")
+              .email("admin@test.com")
+              .password(bCryptPasswordEncoder.encode("admin"))
+              .tokenExpired(false)
+              .roles(Collections.singleton(adminRole))
+              .build();
 
       userRepository.save(admin);
     }
