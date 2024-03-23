@@ -1,5 +1,9 @@
 package org.delivery.KiwiEats.bootstrap;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.delivery.KiwiEats.entities.Product;
 import org.delivery.KiwiEats.entities.Seller;
@@ -13,11 +17,6 @@ import org.delivery.KiwiEats.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
