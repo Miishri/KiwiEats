@@ -1,7 +1,9 @@
 package org.delivery.KiwiEats.bootstrap;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import jakarta.transaction.Transactional;
 import org.delivery.KiwiEats.repositories.PrivilegeRepository;
 import org.delivery.KiwiEats.repositories.RoleRepository;
 import org.delivery.KiwiEats.repositories.SellerRepository;
@@ -26,17 +28,26 @@ public class BootstrapDataTest {
   @BeforeEach
   public void setup() {
     bootstrapData =
-        new BootstrapData(
-            sellerRepository,
-            roleRepository,
-            privilegeRepository,
-            bCryptPasswordEncoder,
-            userRepository);
+            new BootstrapData(
+                    sellerRepository,
+                    roleRepository,
+                    privilegeRepository,
+                    bCryptPasswordEncoder,
+                    userRepository);
   }
 
   @Test
+  @Transactional
   void testRunMethod() throws Exception {
     bootstrapData.run();
     assertThat(userRepository.count()).isEqualTo(2);
   }
+
+  @Test
+  @Transactional
+  void testRepositoryUsers() {
+    bootstrapData.run();
+    assertThat(sellerRepository.count()).isEqualTo(1);
+  }
+
 }
